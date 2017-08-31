@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Feed Yo Face</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+	<!-- flexbox -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<h1 class="text-center">Feed Yo Face</h1>
+					<h2 class="text-center">Sweet Food App Baby</h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- add employees form -->
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">Add Ingredient</div>
+					<div class="card-block">
+						<form>
+			                <div class="form-group col-md-6" style="display:inline-block">
+			                  <label for="form-employeeName">Ingredient</label>
+			                  <input class="form-control" id="form-ingredient" type="text">
+			                </div>
+			                <div class="form-group col-md-2" style="display:inline-block">
+			                  <label for="form-quantity">Quantity</label>
+			                  <input class="form-control" id="form-quantity" type="number">
+			                </div>
+			                <div class="dropdown col-md-2" style="display:inline-block">
+			                	<label for="form-unit"style="display:block;">Unit</label>
+						  		<button class="btn btn-secondary dropdown-toggle" type="button" id="form-unit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">------</button>
+							  	<div class="dropdown-menu" aria-labelledby="form-unit">
+							    	<button class="dropdown-item" type="button">Teaspoon</button>
+							    	<button class="dropdown-item" type="button">Tablespoon</button>
+							    	<button class="dropdown-item" type="button">Fluid ounce</button>
+							    	<button class="dropdown-item" type="button">Cup</button>
+							    	<button class="dropdown-item" type="button">Pint</button>
+							    	<button class="dropdown-item" type="button">Quart</button>
+							    	<button class="dropdown-item" type="button">Gallon</button>
+							    	<button class="dropdown-item" type="button">Unit</button>
+							  	</div>
+							</div>
+			                <!-- <div class="form-group">
+			                  <label for="form-unit">Unit</label>
+			                  <input class="form-control" id="form-unit" type="date">
+			                </div> -->
+			                <button class="form-group btn btn-primary col-md-1" id="form-addIngredient" type="submit" style="margin-bottom:0;">+</button>	               
+			              </form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- current employees table -->
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">Pantry</div>
+					<div class="card-block">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Ingredient</th>
+									<th>Quantity</th>
+									<th>Unit</th>
+									<th>Cook Wit Deez</th>
+									<th>Amazon</th>
+									<th>Walmart</th>
+								</tr>
+							</thead>
+							<tbody id="pantry-list">
+								<tr>
+									<td scope="row" id="display-ingredient"></td>
+									<td id="display-quantity"></td>
+									<td id="display-Unit"></td>
+									<td id="display-cookWitDeez"></td>
+									<td id="display-Amazon"></td>
+									<td id="display-Walmart"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(".dropdown-menu button").click(function(){
+			unit = $(this).text();
+			console.log(unit);
+			$("#form-unit").text($(this).text());
+			/*$("#dropdownMenu2").val($(this).text());*/
+		});
+
+		// Initialize Firebase
+		  var config = {
+		    apiKey: "AIzaSyDYf02rgUgE9pbvz9axbMOfOBDD-avr27g",
+		    authDomain: "downbutton-d5480.firebaseapp.com",
+		    databaseURL: "https://downbutton-d5480.firebaseio.com",
+		    projectId: "downbutton-d5480",
+		    storageBucket: "downbutton-d5480.appspot.com",
+		    messagingSenderId: "445064906768"
+		  };
+		  firebase.initializeApp(config);
+
+
+		  var database = firebase.database();
+
+	// Initial Values
+		var ingredient = "";
+		var quantity = "";
+		var unit = "";
+
+		// Capture Button Click
+    $("#form-addIngredient").on("click", function() {
+      // Don't refresh the page!
+      event.preventDefault();
+
+      // YOUR TASK!!!
+
+      // Code in the logic for storing and retrieving the most recent user.
+      //store user
+
+      ingredient = $("#form-ingredient").val().trim();
+      quantity = $("#form-quantity").val().trim();
+
+      database.ref().push({
+      	ingredient,
+      	quantity,
+      	unit:unit
+      });
+    });
+
+    //retreive user
+      database.ref().on("child_added", function(childSnapshot) {
+
+      	// Log everything that's coming out of snapshot
+	      console.log(childSnapshot.val().ingredient);
+	      console.log(childSnapshot.val().quantity);
+	      console.log(childSnapshot.val().unit);
+      	/*<tr>
+			<th scope="row" id="display-employeeName"></th>
+			<th id="display-role"></th>
+			<th id="display-startDate"></th>
+			<th id="display-monthsWorked"></th>
+			<th id="display-monthlyRate"></th>
+			<th id="display-totalBilled"></th>
+		</tr>*/
+
+		$("#pantry-list").append("<tr><td>" + childSnapshot.val().ingredient + "</td><td>"
+			+ childSnapshot.val().quantity + "</td><td>"  
+			+ childSnapshot.val().unit + "</td><td>"
+			+ "checkbox" + "</td><td>"
+			+ "Amazon Button" + "</td><td>"
+			+ "Walmart Button" + "</td></tr>" );
+
+		/*var unixDate = moment(childSnapshot.val().startDate, "MM/DD/YYYY").format("X");
+		unixDate = moment(unixDate, "MM/DD/YYYY");
+		console.log("unix date: " + unixDate);
+		var snapdate = childSnapshot.val().startDate;
+
+		var unixDate = moment.unix(snapdate, "X");
+		console.log("unixDate: " + unixDate);
+		console.log("snapdate: " + snapdate);*/
+
+
+        $("#display-employeeName").html(childSnapshot.val().employeeName);
+        /*$("#display-role").html(childSnapshot.val().role);
+        $("#display-startDate").html(childSnapshot.val().startDate);
+        $("#display-monthlyRate").html(childSnapshot.val().monthlyRate);*/
+      }, function(errorObject) {
+        console.log("errors handled: " + errorObject.code);
+      });
+
+      /*database.ref().orderbyChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+      	$("#display-employeeName").html(snapshot.val().employeeName);
+        $("#display-role").html(snapshot.val().role);
+        $("#display-startDate").html(snapshot.val().startDate);
+        $("#display-monthlyRate").html(snapshot.val().monthlyRate);
+      });*/
+            // Don't forget to handle the "initial load"
+	</script>
+</body>
+</html>

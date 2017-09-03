@@ -1,0 +1,23 @@
+body {
+	background-image: url("../images/food.jpg");
+}
+small {
+	font-size: 20px;
+}
+label {
+	color: white;
+	font-size: 18px;
+}
+.card {
+	height: 600px;
+}
+#ingredientList {
+	height: 200px;
+}
+select {
+	display: visible;
+}
+.modal-trigger {
+	/*background-color: #ee6e73;*/
+}
+

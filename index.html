@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Feed Yo Face</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -12,18 +12,8 @@
     <nav>
         <div class="nav-wrapper">
             <div class="container">
-                <a class="brand-logo">Feed Yo Face   <small>Sweet Food Baby App</small></a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                	<li class="active"><a href="index.html">Home</a></li>
-                	<li><a href="">Favorites</a></li>
-                    <li><a href="">Amazon Cart</a></li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                	<li class="active"><a href="index.html">Home</a></li>	
-                	<li><a href="">Favorites</a></li>
-                    <li><a href="">Amazon Cart</a></li>
-                </ul>
+                <a class="brand-logo center">Feed Yo Face   <small>Sweet Food Baby App</small></a>
+
             </div>
         </div>
     </nav>
@@ -56,6 +46,54 @@
                         </tbody>
                     </table>
                     <a class="waves-effect waves-light btn blue-grey darken-1">Add to Mixing Bowl</a>
+                    <ul class="collapsible" data-collapsible="accordion">
+                        <li>
+                        	<div class="collapsible-header">
+                        		<i class="material-icons">mode_edit</i>Add Pantry Items
+                        	</div>
+                        	<div class="collapsible-body">
+                        		<form>
+                        			<div class="row">
+        								<div class="input-field col s12">
+          									<input id="form-ingredient" type="text" class="validate">
+          									<label for="password">Ingredient</label>
+        								</div>
+      								</div>
+      								<div class="row">
+        								<div class="input-field col s12">
+          									<input id="form-quantity" type="text" class="validate">
+          									<label for="password">Quantity</label>
+        								</div>
+      								</div>
+      								<div class="row">
+        								<div class="input-field col s12">
+          									<select>
+          									 	<option value="" disabled selected>Choose Unit</option>
+          									 	<option value="main+course" class="form-unit">Teaspoon</option>
+          										<option value="side+dish" class="form-unit">Tablespoon</option>
+          										<option value="dessert" class="form-unit">Fluid ounce</option>
+          										<option value="appetizer" class="form-unit">Cup</option>
+          										<option value="salad" class="form-unit">Pint</option>
+          										<option value="salad" class="form-unit">Quart</option>
+          										<option value="salad" class="form-unit">Gallon</option>
+          										<option value="salad" class="form-unit">Piece</option>
+          									</select>
+          									<a class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">Add to Pantry</a>
+        								</div>
+      								</div>
+                        		</form>
+                        	</div>
+                        </li>
+                        <li>
+                        	<div class="collapsible-header">
+                        		<i class="material-icons">add_shopping_cart</i>Find Items to Purchase
+                        	</div>
+                        	<div class="collapsible-body">
+                        		<p>Amazon API Junk</p>
+                        		<p>Walmart API Junk</p>
+                        	</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -107,6 +145,21 @@
         	</div>
         </div>
     </div>
+    <footer class="page-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<h5 class="white-text">Random Food Joke</h5>
+					<p class="grey-text text-lighten-4" id="joke"></p>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				© 2017 Team Whatever Our Name Is
+			</div>
+		</div>
+    </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>

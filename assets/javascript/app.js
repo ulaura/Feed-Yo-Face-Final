@@ -1,11 +1,19 @@
 $(document).ready(function() {
-	//materialize functions
+	//populate random joke in footer
+	getJoke();
+
+//  ***Materialize functions***
 	$('select').material_select();
 	// Initialize collapse button
-    $(".button-collapse").sideNav();
+    $('.amazonButton').sideNav({
+      menuWidth: 500, // Default is 300
+      edge: 'left', // Choose the horizontal origin
+      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      draggable: true, // Choose whether you can drag to open on touch screens,
+  	});
     // Initialize collapsible (uncomment the line below if you use the dropdown variation)
     $('.collapsible').collapsible();
-     $('.carousel').carousel();
+    $('.carousel').carousel();
 
 	$(".dropdown-menu button").click(function(){
 			unit = $(this).text();
@@ -94,7 +102,8 @@ $(document).ready(function() {
       });*/
             // Don't forget to handle the "initial load"
 
-    //Spoonacular API
+//  ***Spoonacular API***
+	//initialize variables
     var diet = "&diet=";
   	var include = "";
   	var exclude = "&excludeIngredients=";
@@ -130,5 +139,20 @@ $(document).ready(function() {
   		  console.log(response);
   	  });
   	});
+
+  	//Get a random joke
+  	function getJoke(){
+  	  
+  	  var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
+  	  $.ajax({
+  		  url: queryURL,
+  		  method: "GET"
+  	  }).done(function(response) {
+  		var joke = response.text;
+  		$("#joke").html(joke);
+  	  });
+  	};
+  	
+
 
 });

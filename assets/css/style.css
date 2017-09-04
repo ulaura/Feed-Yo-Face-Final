@@ -1,5 +1,6 @@
 body {
-	background-image: url("../images/food.jpg");
+	/*background-image: url("../images/food.jpg");*/
+	background-color: #faefdd;
 }
 small {
 	font-size: 20px;
@@ -9,7 +10,7 @@ label {
 	font-size: 18px;
 }
 .card {
-	height: 600px;
+	height: 570px;
 }
 #ingredientList {
 	height: 200px;
@@ -17,7 +18,13 @@ label {
 select {
 	display: visible;
 }
-.modal-trigger {
-	/*background-color: #ee6e73;*/
+small {
+	font-size: 16px;
+}
+nav {
+	background-color: #5c2932;
+}
+.mixingBowl {
+	background-color: #424953;
 }
 

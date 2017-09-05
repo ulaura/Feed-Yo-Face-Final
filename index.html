@@ -13,7 +13,6 @@
         <div class="nav-wrapper">
             <div class="container">
                 <a class="brand-logo center">Feed Yo Face   <small>Sweet Food Baby App</small></a>
-
             </div>
         </div>
     </nav>
@@ -32,21 +31,28 @@
                     <span class="card-title grey-text text-darken-4">Pantry Inventory
 					    <i class="material-icons right">close</i>
 					</span>
-                    <table class="bordered">
-                        <thead>
-                            <tr>
-                                <th>Ingredient</th>
-                                <th>Quantity</th>
-                                <th>Unit</th>
-                                <th>Cook Wit Deez</th>
-                                <th>Remove Item</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <a class="waves-effect waves-light btn blue-grey darken-1">Add to Mixing Bowl</a>
                     <ul class="collapsible" data-collapsible="accordion">
+                    	<li>
+                    		<div class="collapsible-header active">
+                    			<i class="material-icons">format_list_bulleted</i>View Pantry Items
+                    		</div>
+                    		<div class="collapsible-body">
+                    			<table class="bordered">
+                        			<thead>
+                            			<tr>
+                                			<th>Ingredient</th>
+                                			<th>Quantity</th>
+                                			<th>Unit</th>
+                                			<th>Cook Wit Deez</th>
+                                			<th>Remove Item</th>
+                            			</tr>
+                        			</thead>
+                        			<tbody>
+                       				</tbody>
+                    			</table>
+                    			<a class="waves-effect waves-light btn blue-grey darken-1">Add to Mixing Bowl</a>
+                    		</div>
+                    	</li>
                         <li>
                         	<div class="collapsible-header">
                         		<i class="material-icons">mode_edit</i>Add Pantry Items
@@ -100,10 +106,10 @@
     	<div class="col s12 l5">
         	<div class="card mixingBowl">
         	    <div class="card-content white-text">
-        	        <span class="card-title">Mixing Bowl</span>
+        	        <span class="card-title">Recipe Search</span>
         	        <form>
         	        	<div class ="col s12" id="ingredientList">
-							<label>Ingredients</label>
+							<label>Mixing Bowl <small>(Add ingredients from pantry)</small></label>
 							<ul class="ingredientList">
 							</ul>
 						</div>
@@ -144,6 +150,24 @@
         	    </div>
         	</div>
         </div>
+    </div>
+    <div class="row">
+    	<div class="col s12 l6">
+			<h2 class="header">Example Recipe Card</h2>
+			<div class="card recipeCard horizontal">	
+			<div class="card-image">
+				<img src="assets/images/Pantry.jpg">
+			</div>
+			<div class="card-stacked">
+			<div class="card-content">
+				<p>Recipe data goes here. Blah blah blah blah blah blah blah blah blah blah blah blah blah </p>
+			</div>
+			<div class="card-action">
+				<a href="#">View Full Page</a>
+			</div>
+			</div>
+			</div>
+    	</div>
     </div>
     <footer class="page-footer">
 		<div class="container">

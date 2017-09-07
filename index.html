@@ -117,14 +117,24 @@
         	        <form>
         	        	<div class ="col s12" id="ingredientList">
 							<label>Mixing Bowl <small>(Add ingredients from pantry)</small></label>
-							<ul class="ingredientList">
-							</ul>
+                            <table class="bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ingredient</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Remove Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mixingBowlList"></tbody>
+                            </table>
 						</div>
-						<div class ="col s12">
-							<label>Please Exclude <small>(separate with commas)</small></label>
-							<input type="text" name="exclude" class="exclude">
-						</div>
-						<div class ="col s12">
+						<!-- <div class ="col s12">
+                            <label>Please Exclude <small>(separate with commas)</small></label>
+                            <input type="text" name="exclude" class="exclude">
+                        </div> -->
+						<div class ="col s12" style="margin-top:20px;"><!--INLINE STYLING---------------------------------->
+                            <br>
 							<label>Max Calories</label>
 							<input type="number" name="calories" class="calories" value="2000">
 						</div>

@@ -68,6 +68,7 @@ $(document).ready(function() {
 			check + "'/><label for='check" + 
 			check + "'></label></td><td>"
 			+ "Delete Button" + "</td></tr>");
+		check++;
       }, function(errorObject) {
         console.log("errors handled: " + errorObject.code);
       });

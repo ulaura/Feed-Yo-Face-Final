@@ -104,11 +104,11 @@ $(document).ready(function() {
 
 //  ***Spoonacular API***
 	//initialize variables
-    var diet = "&diet=";
-  	var include = "";
-  	var exclude = "&excludeIngredients=";
-  	var calories = "&maxCalories=";
-  	var type = "&type=";
+    var diet;
+  	var include;
+  	var exclude;
+  	var calories;
+  	var type;
   
   	// Initialize Firebase
   	var config = {
@@ -123,17 +123,26 @@ $(document).ready(function() {
         event.preventDefault();
         var ingredientList = $(".ingredientList").children("li");
 
+        include = "";
         for (var i = 0; i < ingredientList.length; i++) {
           //add ingredients to api parameter
           include += ingredientList.eq(i).text() + ",";
         }
         //remove comma from last ingredient
         include = include.slice(0, -1);
+        console.log(include);
 
-    		diet += $(".diet").attr("value");
-    		exclude += $(".exclude").val().trim();
-    	  calories += $(".calories").val().trim();
-    		type += $(".type").attr("value");
+        //search through diets and find selected
+        diet = "&diet=";
+        diet +=  $(".dietDropdown ul li.selected").text().replace(/\s/g, "");
+        
+    		exclude = "&excludeIngredients=" + $(".exclude").val().trim();
+    	  calories = "&maxCalories=" + $(".calories").val().trim();
+
+        //search through type and find selected
+        type = "&type=";
+        type += "&type=" + $(".courseDropdown ul li.selected").text().replace(/\s/g, "");
+    		/*type += "&type=" + $(".courseDropdown ul li.selected").text();*/
 
     		var queryURL = 
     	  "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?includeIngredients=" + 
@@ -142,7 +151,7 @@ $(document).ready(function() {
     	  exclude + 
     	  calories + 
     	  type + 
-    	  "&ranking=2&number=5&instructionsRequired=true&addRecipeInformation=true&mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd";
+    	  "&ranking=2&number=6&instructionsRequired=true&addRecipeInformation=true&mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd";
 
         console.log()
   		$.ajax({
@@ -152,6 +161,9 @@ $(document).ready(function() {
   		  console.log(response);
         //Get length of results to display that number of cards
         var responseLength = response.results.length;
+
+        //clear old cards
+        $("#recipe-cards").empty();
         //start creating the cards
         for (var i = 0; i < responseLength; i++) {
           var cardDiv = $("<div class=\"col s12 m4 cardDiv\">");
@@ -174,7 +186,7 @@ $(document).ready(function() {
           cardTitle.text(response.results[i].title);
 
           //add card time
-          cardTime.text("Ready In " + response.results[i].readyInMinutes + "Minutes");
+          cardTime.text("Ready In " + response.results[i].readyInMinutes + " Minutes");
 
           //add card score
           cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);

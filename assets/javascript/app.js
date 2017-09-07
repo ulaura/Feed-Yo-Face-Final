@@ -45,7 +45,7 @@ $(document).ready(function() {
       quantity = $("#form-quantity").val().trim();
       //unit = $("units option:selected").attr("value");
 
-      database.ref().push({
+      push = database.ref().push({
       	ingredient,
       	quantity,
       	unit:unit
@@ -60,14 +60,15 @@ $(document).ready(function() {
 	  console.log(childSnapshot.val().ingredient);
 	  console.log(childSnapshot.val().quantity);
 	  console.log(childSnapshot.val().unit);
+    console.log(childSnapshot.key);
 
-	  $("#pantry-list").append("<tr><td>" + childSnapshot.val().ingredient + "</td><td>"
+	  $("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>"
 	    + childSnapshot.val().quantity + "</td><td>"  
 		+ childSnapshot.val().unit + "</td><td>"
 		+ "<input type='checkbox' id='check" + 
 		check + "'/><label for='check" + 
 		check + "'></label></td><td>"
-		+ "<a class='btn-floating btn red box'><i class='small material-icons'>delete_forever</i></a></td></tr>");
+		+ "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
 		check++;
       }, function(errorObject) {
         console.log("errors handled: " + errorObject.code);
@@ -89,12 +90,16 @@ $(document).ready(function() {
         //if this item is checked add to mixing bowl list
         if ($("#pantry-list").children("tr").eq(i).children("td").eq(3).children("input").is(':checked')) {
           $(".ingredientList").append("<li><span ingredient-name=\"" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "\">" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "</span></li>");
-          /*console.log($("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + " checked!");*/
         }
       }
-      /*$("#pantrylist").children("tr")*/
     });
     
+    var rootRef = database.ref();
+    //Delete Pantry Item
+    $(document).on("click", ".deletePantryItemButton", function(e) {
+      var key = $(this).closest("tr").attr("data-name");
+      rootRef.child(key).remove();
+    });
 
 
 //  ***Spoonacular API***

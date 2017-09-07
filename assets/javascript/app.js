@@ -94,8 +94,8 @@ $(document).ready(function() {
       }
     });
     
-    var rootRef = database.ref();
     //Delete Pantry Item
+    var rootRef = database.ref();
     $(document).on("click", ".deletePantryItemButton", function(e) {
       var key = $(this).closest("tr").attr("data-name");
       rootRef.child(key).remove();
@@ -119,26 +119,81 @@ $(document).ready(function() {
   	  storageBucket: "spoonaculartest.appspot.com",
   	  messagingSenderId: "362221940130"
   	};
-  	  $("#submit").on("click", function(){
-  		diet += $(".diet").attr("value");
-  		exclude += $(".exclude").val().trim();
-  	  calories += $(".calories").val().trim();
-  		type += $(".type").attr("value");
-  		var queryURL = 
-  	  "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?includeIngredients=" + 
-  	  include + 
-  	  diet +
-  	  exclude + 
-  	  calories + 
-  	  type + 
-  	  "&ranking=2&number=5&instructionsRequired=true&addRecipeInformation=true&mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd";
+  	  $("#select").on("click", function(){
+        event.preventDefault();
+        var ingredientList = $(".ingredientList").children("li");
+
+        for (var i = 0; i < ingredientList.length; i++) {
+          //add ingredients to api parameter
+          include += ingredientList.eq(i).text() + ",";
+        }
+        //remove comma from last ingredient
+        include = include.slice(0, -1);
+
+    		diet += $(".diet").attr("value");
+    		exclude += $(".exclude").val().trim();
+    	  calories += $(".calories").val().trim();
+    		type += $(".type").attr("value");
+
+    		var queryURL = 
+    	  "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/searchComplex?includeIngredients=" + 
+    	  include + 
+    	  diet +
+    	  exclude + 
+    	  calories + 
+    	  type + 
+    	  "&ranking=2&number=5&instructionsRequired=true&addRecipeInformation=true&mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd";
+
+        console.log()
   		$.ajax({
   		  url: queryURL,
   		  method: "GET"
   	  }).done(function(response) {
   		  console.log(response);
+        //Get length of results to display that number of cards
+        var responseLength = response.results.length;
+        //start creating the cards
+        for (var i = 0; i < responseLength; i++) {
+          var cardDiv = $("<div class=\"col s12 m4 cardDiv\">");
+          var card = $("<div class=\"card\">").addClass("medium");
+          var cardImage = $("<div class=\"card-image\">");
+          var image = $("<img>");
+          var cardContent = $("<div class=\"card-content\">");
+          var cardTitle = $("<span class=\"card-title\">");
+          var cardParagraph = $("<p class=\"cardParagraph\">");
+          var cardTime = $("<span class=\"cardTime\">");
+          var cardScore = $("<span class=\"cardScore\">");
+          /*var cardDescription = $("<span class=\"cardDescription\">");*/
+          var cardAction = $("<div class=\"card-action\">");
+          var cardSource = $("<a class=\"cardsource\">");
+
+          //add img src
+          image.attr("src", response.results[i].image);
+
+          //add card title
+          cardTitle.text(response.results[i].title);
+
+          //add card time
+          cardTime.text("Ready In " + response.results[i].readyInMinutes + "Minutes");
+
+          //add card score
+          cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);
+
+          //add card source
+          cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("OPEN SOURCE PAGE");
+
+          $("#recipe-cards").append(cardDiv);
+          cardDiv.append(card);
+          card.append(cardImage).append(cardContent).append(cardAction);
+          cardImage.append(image);
+          cardContent.append(cardTitle).append(cardParagraph);
+          cardParagraph.append(cardTime).append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
+          cardAction.append(cardSource);
+          
+        }
   	  });
   	});
+
 
   	//Get a random joke
   	function getJoke(){

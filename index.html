@@ -50,7 +50,7 @@
                         			<tbody id="pantry-list">
                        				</tbody>
                     			</table>
-                    			<a class="waves-effect waves-light btn blue-grey darken-1">Add to Mixing Bowl</a>
+                    			<a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a>
                     		</div>
                     	</li>
                         <li>
@@ -92,10 +92,17 @@
                         </li>
                         <li>
                         	<div class="collapsible-header">
-                        		<i class="material-icons">add_shopping_cart</i>Find Items to Purchase
+                        		<i class="material-icons">add_shopping_cart</i>Find Ingredients on Amazon
                         	</div>
                         	<div class="collapsible-body">
                         		<p>Amazon API Junk</p>
+                        	</div>
+                        </li>
+                        <li>
+                        	<div class="collapsible-header">
+                        		<i class="material-icons">shopping_basket</i>Find Ingredients at Walmart
+                        	</div>
+                        	<div class="collapsible-body">
                         		<p>Walmart API Junk</p>
                         	</div>
                         </li>
@@ -131,7 +138,7 @@
 								<option value="salad" class="type">Salad</option>
 						    </select>
 						</div>
-						<div class="browser-default col s6">
+						<div class="browser-default col s4">
 						    <select>
 						    	<option value="" disabled selected>Choose Diet</option>
 						    	<option value="pescetarian" class="diet">Pescetarian</option>

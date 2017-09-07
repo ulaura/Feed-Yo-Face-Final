@@ -52,26 +52,35 @@ $(document).ready(function() {
       });
     });
 
-    //retreive user
+    //Add items to pantry
     var check = 1;
-      database.ref().on("child_added", function(childSnapshot) {
+    database.ref().on("child_added", function(childSnapshot) {
 
-      	// Log everything that's coming out of snapshot
-	      console.log(childSnapshot.val().ingredient);
-	      console.log(childSnapshot.val().quantity);
-	      console.log(childSnapshot.val().unit);
+	  // Log everything that's coming out of snapshot
+	  console.log(childSnapshot.val().ingredient);
+	  console.log(childSnapshot.val().quantity);
+	  console.log(childSnapshot.val().unit);
 
-		$("#pantry-list").append("<tr><td>" + childSnapshot.val().ingredient + "</td><td>"
-			+ childSnapshot.val().quantity + "</td><td>"  
-			+ childSnapshot.val().unit + "</td><td>"
-			+ "<input type='checkbox' id='check" + 
-			check + "'/><label for='check" + 
-			check + "'></label></td><td>"
-			+ "Delete Button" + "</td></tr>");
+	  $("#pantry-list").append("<tr><td>" + childSnapshot.val().ingredient + "</td><td>"
+	    + childSnapshot.val().quantity + "</td><td>"  
+		+ childSnapshot.val().unit + "</td><td>"
+		+ "<input type='checkbox' id='check" + 
+		check + "'/><label for='check" + 
+		check + "'></label></td><td>"
+		+ "<a class='btn-floating btn red box'><i class='small material-icons'>delete_forever</i></a></td></tr>");
 		check++;
       }, function(errorObject) {
         console.log("errors handled: " + errorObject.code);
       });
+
+    var itemToAdd = "";
+    $(".box").on("click", function() {
+    	itemToAdd += ",";
+    })
+
+    $("#addToBowl").on("click", function() {
+
+    })
 
 
 //  ***Spoonacular API***

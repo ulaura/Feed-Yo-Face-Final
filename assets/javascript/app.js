@@ -82,6 +82,20 @@ $(document).ready(function() {
 
     })
 
+    //Add items to Mixing Bowl
+    $("#addToBowl").on("click", function() {
+      console.log($("#pantry-list").children("tr").length);
+      for (var i = 0; i < $("#pantry-list").children("tr").length; i++) {
+        //if this item is checked add to mixing bowl list
+        if ($("#pantry-list").children("tr").eq(i).children("td").eq(3).children("input").is(':checked')) {
+          $(".ingredientList").append("<li><span ingredient-name=\"" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "\">" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "</span></li>");
+          /*console.log($("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + " checked!");*/
+        }
+      }
+      /*$("#pantrylist").children("tr")*/
+    });
+    
+
 
 //  ***Spoonacular API***
 	//initialize variables

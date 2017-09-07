@@ -1,58 +1,49 @@
 $(document).ready(function() {
 	//populate random joke in footer
-	getJoke();
+	//getJoke();
 
 //  ***Materialize functions***
 	$('select').material_select();
-	// Initialize collapse button
-    $('.amazonButton').sideNav({
-      menuWidth: 500, // Default is 300
-      edge: 'left', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true, // Choose whether you can drag to open on touch screens,
-  	});
-    // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+    // Initialize collapsible 
     $('.collapsible').collapsible();
-    $('.carousel').carousel();
+    //Select dropdown
+    $('select').material_select();
 
-	$(".dropdown-menu button").click(function(){
+	$(".dropdown-menu option").click(function(){
 			unit = $(this).text();
 			console.log(unit);
 			$("#form-unit").text($(this).text());
 			/*$("#dropdownMenu2").val($(this).text());*/
 		});
 
-		// Initialize Firebase
-		  var config = {
-		    apiKey: "AIzaSyDYf02rgUgE9pbvz9axbMOfOBDD-avr27g",
-		    authDomain: "downbutton-d5480.firebaseapp.com",
-		    databaseURL: "https://downbutton-d5480.firebaseio.com",
-		    projectId: "downbutton-d5480",
-		    storageBucket: "downbutton-d5480.appspot.com",
-		    messagingSenderId: "445064906768"
-		  };
-		  firebase.initializeApp(config);
+	// Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyCBvZc9Z1YbIZR-9MEvCABS4nbg0Z5eICM",
+    	authDomain: "spoonaculartest.firebaseapp.com",
+    	databaseURL: "https://spoonaculartest.firebaseio.com",
+    	projectId: "spoonaculartest",
+    	storageBucket: "spoonaculartest.appspot.com",
+    	messagingSenderId: "362221940130"
+	  };
+	  firebase.initializeApp(config);
 
 
-		  var database = firebase.database();
+	var database = firebase.database();
 
 	// Initial Values
 		var ingredient = "";
 		var quantity = "";
 		var unit = "";
 
-		// Capture Button Click
+	// Capture Button Click
     $("#form-addIngredient").on("click", function() {
       // Don't refresh the page!
       event.preventDefault();
 
-      // YOUR TASK!!!
-
-      // Code in the logic for storing and retrieving the most recent user.
       //store user
-
       ingredient = $("#form-ingredient").val().trim();
       quantity = $("#form-quantity").val().trim();
+      //unit = $("units option:selected").attr("value");
 
       database.ref().push({
       	ingredient,
@@ -62,6 +53,7 @@ $(document).ready(function() {
     });
 
     //retreive user
+    var check = 1;
       database.ref().on("child_added", function(childSnapshot) {
 
       	// Log everything that's coming out of snapshot
@@ -72,35 +64,14 @@ $(document).ready(function() {
 		$("#pantry-list").append("<tr><td>" + childSnapshot.val().ingredient + "</td><td>"
 			+ childSnapshot.val().quantity + "</td><td>"  
 			+ childSnapshot.val().unit + "</td><td>"
-			+ "checkbox" + "</td><td>"
-			+ "Amazon Button" + "</td><td>"
-			+ "Walmart Button" + "</td></tr>" );
-
-		/*var unixDate = moment(childSnapshot.val().startDate, "MM/DD/YYYY").format("X");
-		unixDate = moment(unixDate, "MM/DD/YYYY");
-		console.log("unix date: " + unixDate);
-		var snapdate = childSnapshot.val().startDate;
-
-		var unixDate = moment.unix(snapdate, "X");
-		console.log("unixDate: " + unixDate);
-		console.log("snapdate: " + snapdate);*/
-
-
-        $("#display-employeeName").html(childSnapshot.val().employeeName);
-        /*$("#display-role").html(childSnapshot.val().role);
-        $("#display-startDate").html(childSnapshot.val().startDate);
-        $("#display-monthlyRate").html(childSnapshot.val().monthlyRate);*/
+			+ "<input type='checkbox' id='check" + 
+			check + "'/><label for='check" + 
+			check + "'></label></td><td>"
+			+ "Delete Button" + "</td></tr>");
       }, function(errorObject) {
         console.log("errors handled: " + errorObject.code);
       });
 
-      /*database.ref().orderbyChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-      	$("#display-employeeName").html(snapshot.val().employeeName);
-        $("#display-role").html(snapshot.val().role);
-        $("#display-startDate").html(snapshot.val().startDate);
-        $("#display-monthlyRate").html(snapshot.val().monthlyRate);
-      });*/
-            // Don't forget to handle the "initial load"
 
 //  ***Spoonacular API***
 	//initialize variables
@@ -142,7 +113,6 @@ $(document).ready(function() {
 
   	//Get a random joke
   	function getJoke(){
-  	  
   	  var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
   	  $.ajax({
   		  url: queryURL,

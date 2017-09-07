@@ -11,6 +11,7 @@ label {
 }
 .card {
 	height: 570px;
+	margin-top: 30px;
 }
 #ingredientList {
 	height: 200px;
@@ -40,7 +41,7 @@ body {
   main {
     flex: 1 0 auto;
   }
-  .recipeCard {
-  	height: 300px;
-  }
-
+.recipeCard {
+  	height: auto;
+  	width: 400px;
+}

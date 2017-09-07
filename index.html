@@ -47,7 +47,7 @@
                                 			<th>Remove Item</th>
                             			</tr>
                         			</thead>
-                        			<tbody>
+                        			<tbody id="pantry-list">
                        				</tbody>
                     			</table>
                     			<a class="waves-effect waves-light btn blue-grey darken-1">Add to Mixing Bowl</a>
@@ -73,16 +73,16 @@
       								</div>
       								<div class="row">
         								<div class="input-field col s12">
-          									<select>
-          									 	<option value="" disabled selected>Choose Unit</option>
-          									 	<option value="main+course" class="form-unit">Teaspoon</option>
-          										<option value="side+dish" class="form-unit">Tablespoon</option>
-          										<option value="dessert" class="form-unit">Fluid ounce</option>
-          										<option value="appetizer" class="form-unit">Cup</option>
-          										<option value="salad" class="form-unit">Pint</option>
-          										<option value="salad" class="form-unit">Quart</option>
-          										<option value="salad" class="form-unit">Gallon</option>
-          										<option value="salad" class="form-unit">Piece</option>
+          									<select id="units">
+          									 	<option value="" disabled selected class="form-unit">Choose Unit</option>
+          									 	<option value="Teaspoon" class="form-unit">Teaspoon</option>
+          										<option value="Tablespoon" class="form-unit">Tablespoon</option>
+          										<option value="Fluid ounce" class="form-unit">Fluid ounce</option>
+          										<option value="Cup" class="form-unit">Cup</option>
+          										<option value="Pint" class="form-unit">Pint</option>
+          										<option value="Quart" class="form-unit">Quart</option>
+          										<option value="Gallon" class="form-unit">Gallon</option>
+          										<option value="Piece" class="form-unit">Piece</option>
           									</select>
           									<a class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">Add to Pantry</a>
         								</div>
@@ -122,7 +122,7 @@
 							<input type="number" name="calories" class="calories" value="2000">
 						</div>
 						<div class="browser-default col s6">
-						    <select>
+						    <select class="dropdown-menu" aria-labelledby="form-unit">
 						    	<option value="" disabled selected>Choose Type</option>
 						    	<option value="main+course" class="type">Main Course</option>
 								<option value="side+dish" class="type">Side Dish</option>
@@ -152,22 +152,23 @@
         </div>
     </div>
     <div class="row">
-    	<div class="col s12 l6">
-			<h2 class="header">Example Recipe Card</h2>
-			<div class="card recipeCard horizontal">	
-			<div class="card-image">
-				<img src="assets/images/Pantry.jpg">
-			</div>
-			<div class="card-stacked">
-			<div class="card-content">
-				<p>Recipe data goes here. Blah blah blah blah blah blah blah blah blah blah blah blah blah </p>
-			</div>
-			<div class="card-action">
-				<a href="#">View Full Page</a>
-			</div>
-			</div>
-			</div>
-    	</div>
+        <div class="col s12 m6">
+            <div class="card medium">
+                <div class="card-image">
+                	<img src="https://spoonacular.com/recipeImages/scrambled-egg-sandwich-to-go-266974.jpg">
+                </div>
+                <div class="card-content">
+                	<span class="card-title">Scrambled Egg Sandwich to Go</span>
+                	<p>Ready In Minutes: 5<br>
+                	Spoonacular Score: 20 <br>
+                	blah: zdkjgfhlskdjgfh<br>
+                	</p>
+                </div>
+                <div class="card-action">
+                	<a href="https://spoonacular.com/scrambled-egg-sandwich-to-go-266974">Open Source Page</a>
+                </div>
+            </div>
+        </div>
     </div>
     <footer class="page-footer">
 		<div class="container">
@@ -188,7 +189,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script type="text/javascript" src="assets/javascript/app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 </body>
 
 </html>

@@ -234,6 +234,91 @@ $(document).ready(function() {
     });
 
 
+    // to get the Walmart API modal to function **THIS IS WHERE I STARTED WORKING***
+    $('.modal').modal({
+        dismissible: true,
+        opacity: 0
+    });
+
+    $("#walmart-search-button").on("click", function(){
+
+      // Walmart API variables
+      var apiKey = "fazraus843kfm9js8vn2x22h";
+      var itemSearch = $("#walmartSearch").val().trim(); //the item we are searching for, taken from the modal form
+      // numItems=5 limits the search to five results
+      var walmartQueryUrl = "https://api.walmartlabs.com/v1/search?apiKey=" + apiKey + "&query=" + itemSearch + "&numItems=5"; 
+
+      $.ajax({
+        url: walmartQueryUrl,
+        method: "GET",
+        crossDomain: true,
+        dataType: "jsonp",
+        beforeSend: setHeader
+      }).done(function(result) {
+        console.log(result); //test
+
+        // this for-loop is to iterate through the five results from the API call
+        for (var i=0; i < result.items.length; i++) {
+              var imageSRC = result.items[i].imageEntities[i].mediumImage; 
+              console.log("Image src is " + imageSRC); //test
+
+              var cardDiv = $("<div class=\"col s12 m7 cardDiv\">");
+              var card = $("<div class=\"card\">").addClass("medium");
+              var cardImage = $("<div class=\"card-image\">");
+              var image = $("<img>");
+              var cardContent = $("<div class=\"card-content\">");
+              var cardTitle = $("<span class=\"card-title\">");
+              var cardParagraph = $("<p class=\"cardParagraph\">");
+              /*var cardTime = $("<span class=\"cardTime\">");*/
+              var cardScore = $("<span class=\"cardScore\">");
+              /*var cardDescription = $("<span class=\"cardDescription\">");*/
+              var cardAction = $("<div class=\"card-action\">");
+              var cardSource = $("<a class=\"cardsource\">");
+              
+
+              //add img src
+              image.attr("src", result.items[i].imageEntities[i].mediumImage);
+
+              //add card title
+              cardTitle.text(result.items[i].name);
+
+              //add card paragraph, which will be the sale price of the item
+              cardParagraph.text(result.items[i].salePrice);
+
+
+              //add card score, which will be the product rating off of walmart.com
+              cardScore.text(result.items[i].customerRating);
+
+              $("#walmart-search-results").append(cardDiv);
+              cardDiv.append(card);
+              card.append(cardImage).append(cardContent).append(cardAction);
+              cardImage.append(image);
+              cardContent.append(cardTitle).append(cardParagraph);
+              cardParagraph/*.append(cardTime)*/.append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
+              cardAction.append(cardSource);
+
+
+          }
+
+
+
+
+          
+        }).fail(function(err) {
+          throw err;
+        });
+        
+        function setHeader(xhr) {
+          xhr.setRequestHeader("Authorization", walmartQueryUrl)
+        }
+
+
+
+
+    });
+    // ***THIS IS WHERE I ENDED MY WORK***
+
+
   	//Get a random joke
   	function getJoke(){
   	  var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"

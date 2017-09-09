@@ -17,96 +17,56 @@
         </div>
     </nav>
     <div class="row">
+
         <div class="col s12 l7">
             <div class="card">
-                <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" src="assets/images/legumbres.jpg">
-                </div>
                 <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4">View Pantry
-					    <i class="material-icons right"></i>
-					</span>
-                </div>
-                <div class="card-reveal">
-                    <span class="card-title grey-text text-darken-4">Pantry Inventory
-					    <i class="material-icons right">close</i>
-					</span>
-                    <ul class="collapsible" data-collapsible="accordion">
-                    	<li>
-                    		<div class="collapsible-header active">
-                    			<i class="material-icons">format_list_bulleted</i>View Pantry Items
-                    		</div>
-                    		<div class="collapsible-body">
-                    			<table class="bordered">
-                        			<thead>
-                            			<tr>
-                                			<th>Ingredient</th>
-                                			<th>Quantity</th>
-                                			<th>Unit</th>
-                                			<th>Cook Wit Deez</th>
-                                			<th>Remove Item</th>
-                            			</tr>
-                        			</thead>
-                        			<tbody id="pantry-list">
-                       				</tbody>
-                    			</table>
-                    			<a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a>
-                    		</div>
-                    	</li>
-                        <li>
-                        	<div class="collapsible-header">
-                        		<i class="material-icons">mode_edit</i>Add Pantry Items
-                        	</div>
-                        	<div class="collapsible-body">
-                        		<form>
-                        			<div class="row">
-        								<div class="input-field col s12">
-          									<input id="form-ingredient" type="text" class="validate">
-          									<label for="password">Ingredient</label>
-        								</div>
-      								</div>
-      								<div class="row">
-        								<div class="input-field col s12">
-          									<input id="form-quantity" type="text" class="validate">
-          									<label for="password">Quantity</label>
-        								</div>
-      								</div>
-      								<div class="row">
-        								<div class="input-field col s12">
-          									<select id="units">
-          									 	<option value="" disabled selected class="form-unit">Choose Unit</option>
-          									 	<option value="Teaspoon" class="form-unit">Teaspoon</option>
-          										<option value="Tablespoon" class="form-unit">Tablespoon</option>
-          										<option value="Fluid ounce" class="form-unit">Fluid ounce</option>
-          										<option value="Cup" class="form-unit">Cup</option>
-          										<option value="Pint" class="form-unit">Pint</option>
-          										<option value="Quart" class="form-unit">Quart</option>
-          										<option value="Gallon" class="form-unit">Gallon</option>
-          										<option value="Piece" class="form-unit">Piece</option>
-          									</select>
-          									<a class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">Add to Pantry</a>
-        								</div>
-      								</div>
-                        		</form>
-                        	</div>
-                        </li>
-                        <li>
-                        	<div class="collapsible-header">
-                        		<i class="material-icons">add_shopping_cart</i>Find Ingredients on Amazon
-                        	</div>
-                        	<div class="collapsible-body">
-                        		<p>Amazon API Junk</p>
-                        	</div>
-                        </li>
-                        <li>
-                        	<div class="collapsible-header">
-                        		<i class="material-icons">shopping_basket</i>Find Ingredients at Walmart
-                        	</div>
-                        	<div class="collapsible-body">
-                        		<p>Walmart API Junk</p>
-                        	</div>
-                        </li>
-                    </ul>
+                    <h5>Add Pantry Items</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="input-field col s4">
+                                            <input id="form-ingredient" type="text" class="validate">
+                                            <label for="password">Ingredient</label>
+                                        </div>
+                                        <div class="input-field col s2">
+                                            <input id="form-quantity" type="text" class="validate">
+                                            <label for="password">Quantity</label>
+                                        </div>
+                                        <div class="input-field col s3">
+                                            <select id="units">
+                                                <option value="" disabled selected class="form-unit">Choose Unit</option>
+                                                <option value="Teaspoon" class="form-unit">Teaspoon</option>
+                                                <option value="Tablespoon" class="form-unit">Tablespoon</option>
+                                                <option value="Fluid ounce" class="form-unit">Fluid ounce</option>
+                                                <option value="Cup" class="form-unit">Cup</option>
+                                                <option value="Pint" class="form-unit">Pint</option>
+                                                <option value="Quart" class="form-unit">Quart</option>
+                                                <option value="Gallon" class="form-unit">Gallon</option>
+                                                <option value="Piece" class="form-unit">Piece</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-field col s3">
+                                            <a class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">Add to Pantry</a>
+                                        </div>
+                                    </div>
+                                </form>
+                                <h5>View Pantry Items</h5>
+                                <table class="bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Ingredient</th>
+                                            <th>Quantity</th>
+                                            <th>Unit</th>
+                                            <th>Cook Wit Deez</th>
+                                            <th>Remove Item</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pantry-list">
+                                    </tbody>
+                                </table>
+                                <a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a>
+                                <a class="waves-effect waves-light btn blue-grey darken-1" id="findOnAmazon">Find on Amazon</a>
+                                <a class="waves-effect waves-light btn blue-grey darken-1" id="findOnWalmart">Find on WalMart</a>
                 </div>
             </div>
         </div>

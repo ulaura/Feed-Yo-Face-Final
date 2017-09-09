@@ -56,15 +56,27 @@ $(document).ready(function() {
       $("#form-quantity").val("");
     });
 
-    //Add items to pantry
+    //Refresh Pantry Items on Add
     var check = 1;
     database.ref().on("child_added", function(childSnapshot) {
+		loadPantryFromFirebase(childSnapshot);	  
+	}, function(errorObject) {
+	  console.log("errors handled: " + errorObject.code);
+	});
 
-	  // Log everything that's coming out of snapshot
+
+    var itemToAdd = "";
+    $(".box").on("click", function() {
+    	itemToAdd += ",";
+    })
+
+    //Load pantry list from firebase
+    function loadPantryFromFirebase(childSnapshot) {
+    	// Log everything that's coming out of snapshot
 	  console.log(childSnapshot.val().ingredient);
 	  console.log(childSnapshot.val().quantity);
 	  console.log(childSnapshot.val().unit);
-    console.log(childSnapshot.key);
+      console.log(childSnapshot.key);
 
 	  $("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>"
 	    + childSnapshot.val().quantity + "</td><td>"  
@@ -74,14 +86,7 @@ $(document).ready(function() {
 		check + "'></label></td><td>"
 		+ "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
 		check++;
-      }, function(errorObject) {
-        console.log("errors handled: " + errorObject.code);
-      });
-
-    var itemToAdd = "";
-    $(".box").on("click", function() {
-    	itemToAdd += ",";
-    })
+    }
 
     //Add items to Mixing Bowl
     $("#addToBowl").on("click", function() {
@@ -111,6 +116,14 @@ $(document).ready(function() {
     $(document).on("click", ".deletePantryItemButton", function(e) {
       var key = $(this).closest("tr").attr("data-name");
       rootRef.child(key).remove();
+
+     // Refresh pantry list - empty the Pantry List and Load it again
+     $("#pantry-list").empty();
+	database.ref().on("child_added", function(childSnapshot) {
+		loadPantryFromFirebase(childSnapshot);	  
+	}, function(errorObject) {
+	  console.log("errors handled: " + errorObject.code);
+	});
     });
 
 
@@ -205,7 +218,8 @@ $(document).ready(function() {
         cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);
 
         //add card source
-        cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("OPEN SOURCE PAGE");
+        cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("OPEN SOURCE PAGE").attr("target", "_blank");
+
 
         $("#recipe-cards").append(cardDiv);
         cardDiv.append(card);

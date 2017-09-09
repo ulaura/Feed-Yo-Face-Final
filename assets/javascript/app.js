@@ -240,11 +240,12 @@ $(document).ready(function() {
         opacity: 0
     });
 
-    $("#walmart-search-button").on("click", function(){
+    // the on-click function to initiate Walmart API search
+    $("#findOnWalmart").on("click", function(){
 
       // Walmart API variables
       var apiKey = "fazraus843kfm9js8vn2x22h";
-      var itemSearch = $("#walmartSearch").val().trim(); //the item we are searching for, taken from the modal form
+      var itemSearch = $("#walmartSearch").val().trim(); //this will have to change to fit the new design
       // numItems=5 limits the search to five results
       var walmartQueryUrl = "https://api.walmartlabs.com/v1/search?apiKey=" + apiKey + "&query=" + itemSearch + "&numItems=5"; 
 

@@ -10,11 +10,11 @@ label {
 	font-size: 18px;
 }
 .card {
-	height: 570px;
+	min-height: 570px;
 	margin-top: 30px;
 }
 #ingredientList {
-	height: 200px;
+	min-height: 200px;
 }
 select {
 	display: visible;

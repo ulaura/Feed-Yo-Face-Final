@@ -117,19 +117,29 @@
         	        <form>
         	        	<div class ="col s12" id="ingredientList">
 							<label>Mixing Bowl <small>(Add ingredients from pantry)</small></label>
-							<ul class="ingredientList">
-							</ul>
+                            <table class="bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Ingredient</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Remove Item</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mixingBowlList"></tbody>
+                            </table>
 						</div>
-						<div class ="col s12">
-							<label>Please Exclude <small>(separate with commas)</small></label>
-							<input type="text" name="exclude" class="exclude">
-						</div>
-						<div class ="col s12">
+						<!-- <div class ="col s12">
+                            <label>Please Exclude <small>(separate with commas)</small></label>
+                            <input type="text" name="exclude" class="exclude">
+                        </div> -->
+						<div class ="col s12" style="margin-top:20px;"><!--INLINE STYLING---------------------------------->
+                            <br>
 							<label>Max Calories</label>
 							<input type="number" name="calories" class="calories" value="2000">
 						</div>
 						<div class="browser-default col s6">
-						    <select class="dropdown-menu" aria-labelledby="form-unit">
+						    <select class="dropdown-menu courseDropdown" aria-labelledby="form-unit">
 						    	<option value="" disabled selected>Choose Type</option>
 						    	<option value="main+course" class="type">Main Course</option>
 								<option value="side+dish" class="type">Side Dish</option>
@@ -139,7 +149,7 @@
 						    </select>
 						</div>
 						<div class="browser-default col s4">
-						    <select>
+						    <select class="dropdown-menu dietDropdown" aria-labelledby="form-unit">
 						    	<option value="" disabled selected>Choose Diet</option>
 						    	<option value="pescetarian" class="diet">Pescetarian</option>
 								<option value="lacto+vegetarian" class="diet">Lacto Vegetarian</option>
@@ -158,24 +168,7 @@
         	</div>
         </div>
     </div>
-    <div class="row">
-        <div class="col s12 m6">
-            <div class="card medium">
-                <div class="card-image">
-                	<img src="https://spoonacular.com/recipeImages/scrambled-egg-sandwich-to-go-266974.jpg">
-                </div>
-                <div class="card-content">
-                	<span class="card-title">Scrambled Egg Sandwich to Go</span>
-                	<p>Ready In Minutes: 5<br>
-                	Spoonacular Score: 20 <br>
-                	blah: zdkjgfhlskdjgfh<br>
-                	</p>
-                </div>
-                <div class="card-action">
-                	<a href="https://spoonacular.com/scrambled-egg-sandwich-to-go-266974">Open Source Page</a>
-                </div>
-            </div>
-        </div>
+    <div class="row" id="recipe-cards">
     </div>
     <footer class="page-footer">
 		<div class="container">

@@ -336,6 +336,7 @@ $(document).ready(function() {
   // SIGN IN THE USER
   $('#logIn').on('click', function() {
     console.log("clicked log in");
+    $("#error").empty();
     var email = $('#email').val().trim();
     var password = $('#password').val().trim();
     if(email && password) {
@@ -343,27 +344,29 @@ $(document).ready(function() {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
           $(location).attr('href', 'index.html');
         }).catch(function(error) {
-          alert(error.message);
+          $("#error").html("ERROR: " + error.message);
         });
     }
   });
   // SIGN UP THE USER
   $('#signUp').on('click', function() {
     console.log("clicked Sign Up");
+    $("#error").empty();
     var email = $('#email').val();
     var password = $('#password').val();
     firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
         $(location).attr('href', 'index.html');
       }).catch(function(error) {
-        alert(error.message);
+        $("#error").html("ERROR: " + error.message);
       });
   });
   // SIGN OUT THE USER
   $('#logOut').on('click', function() {
+    $("#error").empty();
     firebase.auth().signOut().then(function() {
         $(location).attr('href', 'signInPage.html');
       }).catch(function(error) {
-        alert(error.message);
+        $("#error").html("ERROR: " + error.message);
       });
   });
   	

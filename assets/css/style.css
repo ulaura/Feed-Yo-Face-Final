@@ -51,7 +51,7 @@ nav {
 	text-align: center;
 	color: white;
 	background-color: rgba(92,41,50, 0.8);
-	margin-top: 15%;
+	margin-top: 10%;
 }
 #heading {
 	margin-bottom: 0;
@@ -85,4 +85,7 @@ nav {
    /* icon prefix focus color */
    .input-field .prefix.active {
      color: #fff;
+   }
+   .hidden {
+   	display: none;
    }

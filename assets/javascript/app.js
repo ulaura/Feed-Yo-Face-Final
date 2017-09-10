@@ -134,16 +134,6 @@ $(document).ready(function() {
   	var exclude = "";
   	var calories = "";
   	var type = "";
-  
-  	// Initialize Firebase
-  	var config = {
-  	  apiKey: "AIzaSyCBvZc9Z1YbIZR-9MEvCABS4nbg0Z5eICM",
-  	  authDomain: "spoonaculartest.firebaseapp.com",
-  	  databaseURL: "https://spoonaculartest.firebaseio.com",
-  	  projectId: "spoonaculartest",
-  	  storageBucket: "spoonaculartest.appspot.com",
-  	  messagingSenderId: "362221940130"
-  	};
 
     // Search For Recipes
 	  $("#select").on("click", function(){
@@ -233,6 +223,18 @@ $(document).ready(function() {
       });
     });
 
+    //Get a random joke
+    function getJoke(){
+      var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).done(function(response) {
+      var joke = response.text;
+      $("#joke").html(joke);
+      });
+    };
+    
 
     // to get the Walmart API modal to function **THIS IS WHERE I STARTED WORKING***
     $('.modal').modal({
@@ -318,18 +320,52 @@ $(document).ready(function() {
     });
     // ***THIS IS WHERE I ENDED MY WORK***
 
-
-  	//Get a random joke
-  	function getJoke(){
-  	  var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
-  	  $.ajax({
-  		  url: queryURL,
-  		  method: "GET"
-  	  }).done(function(response) {
-  		var joke = response.text;
-  		$("#joke").html(joke);
-  	  });
-  	};
+  //Firebase Authentication
+  // CHECK CURRENT PATH
+  var currentPath = $(location)[0].pathname;
+  // CHECK IF USER IS SIGNED IN
+  firebase.auth().onAuthStateChanged(function(user) {
+    if(user && (currentPath === '/signInPage.html' || currentPath === '/' )) {
+      // REDIRECT IF AUTHENTICATED
+      $(location).attr('href', 'index.html');
+    } else if(!user && currentPath === '/index.html') {
+      // REDIRECT IF NOT AUTHENTICATED
+      $(location).attr('href', 'signInPage.html');
+    }
+  });
+  // SIGN IN THE USER
+  $('#logIn').on('click', function() {
+    console.log("clicked log in");
+    var email = $('#email').val().trim();
+    var password = $('#password').val().trim();
+    if(email && password) {
+      // ADD USER TO DATABASE
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+          $(location).attr('href', 'index.html');
+        }).catch(function(error) {
+          alert(error.message);
+        });
+    }
+  });
+  // SIGN UP THE USER
+  $('#signUp').on('click', function() {
+    console.log("clicked Sign Up");
+    var email = $('#email').val();
+    var password = $('#password').val();
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+        $(location).attr('href', 'index.html');
+      }).catch(function(error) {
+        alert(error.message);
+      });
+  });
+  // SIGN OUT THE USER
+  $('#logOut').on('click', function() {
+    firebase.auth().signOut().then(function() {
+        $(location).attr('href', 'signInPage.html');
+      }).catch(function(error) {
+        alert(error.message);
+      });
+  });
   	
 
 

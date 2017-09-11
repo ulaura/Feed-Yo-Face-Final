@@ -279,7 +279,7 @@ $(document).ready(function() {
                   var cardScore = $("<span class=\"cardScore\">");
                   /*var cardDescription = $("<span class=\"cardDescription\">");*/
                   var cardAction = $("<div class=\"card-action\">");
-                  var cardSource = $("<a class=\"cardsource\">");
+                  var cardSource = $("<a class=\"cardsource\">"); // change this
                   
 
                   //add img src
@@ -294,6 +294,11 @@ $(document).ready(function() {
 
                   //add card score, which will be the product rating off of walmart.com
                   cardScore.text("Customer Rating (out of 5): " + response.items[j].customerRating);
+
+                  //allow users to add item to their cart on Walmart.com
+                  cardSource.attr("href", response.items[j].addToCartUrl);
+                  cardSource.attr("target", "_blank");
+                  cardSource.text("Add This to Your Walmart Cart");
 
                   $(".walmartDiv").append(cardDiv); // the targeted id will have to created or changed to fit the new design
                   cardDiv.append(card);

@@ -234,90 +234,98 @@ $(document).ready(function() {
     });
 
 
-    // to get the Walmart API modal to function **THIS IS WHERE I STARTED WORKING***
-    $('.modal').modal({
-        dismissible: true,
-        opacity: 0
-    });
+    // to get the Walmart API to function **THIS IS WHERE LAURA STARTED WORKING***
 
     // the on-click function to initiate Walmart API search
     $("#findOnWalmart").on("click", function(){
 
-      // Walmart API variables
-      var apiKey = "fazraus843kfm9js8vn2x22h";
-      var itemSearch = $("#walmartSearch").val().trim(); //this will have to change to fit the new design
-      // numItems=5 limits the search to five results
-      var walmartQueryUrl = "https://api.walmartlabs.com/v1/search?apiKey=" + apiKey + "&query=" + itemSearch + "&numItems=5"; 
+      // iterating through however many pantry items we have...
+      for (var i = 0; i < $("#pantry-list").children("tr").length; i++) {
 
-      $.ajax({
-        url: walmartQueryUrl,
-        method: "GET",
-        crossDomain: true,
-        dataType: "jsonp",
-        beforeSend: setHeader
-      }).done(function(result) {
-        console.log(result); //test
+        /* if one of the pantry items has a check mark next to it, the Walmart API will run a search
+        for that item */
+        if ($("#pantry-list").children("tr").eq(i).children("td").eq(3).children("input").is(':checked')) {
+          // Walmart API variables
+          var apiKey = "fazraus843kfm9js8vn2x22h";
+          var itemSearch = $("#pantry-list").children("tr").eq(i).children("td").eq(0).html(); // targetting the actual name of the pantry item
+          // numItems=5 limits the search to five responses
+          var walmartQueryUrl = "https://api.walmartlabs.com/v1/search?apiKey=" + apiKey + "&query=" + itemSearch + "&numItems=5"; 
 
-        // this for-loop is to iterate through the five results from the API call
-        for (var i=0; i < result.items.length; i++) {
-              var imageSRC = result.items[i].imageEntities[i].mediumImage; 
-              console.log("Image src is " + imageSRC); //test
+          $.ajax({
+            url: walmartQueryUrl,
+            method: "GET",
+            crossDomain: true, // to get over the CORS issue
+            dataType: "jsonp", // to get over the CORS issue
+            beforeSend: setHeader // to get over the CORS issue - setHeader is a function defined below
+          }).done(function(response) {
+            console.log(response); //test
 
-              var cardDiv = $("<div class=\"col s12 m7 cardDiv\">");
-              var card = $("<div class=\"card\">").addClass("medium");
-              var cardImage = $("<div class=\"card-image\">");
-              var image = $("<img>");
-              var cardContent = $("<div class=\"card-content\">");
-              var cardTitle = $("<span class=\"card-title\">");
-              var cardParagraph = $("<p class=\"cardParagraph\">");
-              /*var cardTime = $("<span class=\"cardTime\">");*/
-              var cardScore = $("<span class=\"cardScore\">");
-              /*var cardDescription = $("<span class=\"cardDescription\">");*/
-              var cardAction = $("<div class=\"card-action\">");
-              var cardSource = $("<a class=\"cardsource\">");
+            // to clear any previous cards in the div
+            $(".walmartDiv").empty();
+
+            // this for-loop is to iterate through the five responses from the Walmart API call
+            for (var j = 0; j < response.items.length; j++) {
+                  var imageSRC = response.items[j].imageEntities[j].mediumImage; 
+                  console.log("Image src is " + imageSRC); //test
+
+                  var cardDiv = $("<div class=\"col s12 m7 cardDiv\">");
+                  var card = $("<div class=\"card\">").addClass("medium");
+                  var cardImage = $("<div class=\"card-image\">");
+                  var image = $("<img>");
+                  var cardContent = $("<div class=\"card-content\">");
+                  var cardTitle = $("<span class=\"card-title\">");
+                  var cardParagraph = $("<p class=\"cardParagraph\">");
+                  /*var cardTime = $("<span class=\"cardTime\">");*/
+                  var cardScore = $("<span class=\"cardScore\">");
+                  /*var cardDescription = $("<span class=\"cardDescription\">");*/
+                  var cardAction = $("<div class=\"card-action\">");
+                  var cardSource = $("<a class=\"cardsource\">");
+                  
+
+                  //add img src
+                  image.attr("src", response.items[j].imageEntities[j].mediumImage);
+
+                  //add card title
+                  cardTitle.text(response.items[j].name);
+
+                  //add card paragraph, which will be the sale price of the item
+                  cardParagraph.text("$" + response.items[j].salePrice);
+
+
+                  //add card score, which will be the product rating off of walmart.com
+                  cardScore.text("Customer Rating (out of 5): " + response.items[j].customerRating);
+
+                  $(".walmartDiv").append(cardDiv); // the targeted id will have to created or changed to fit the new design
+                  cardDiv.append(card);
+                  card.append(cardImage).append(cardContent).append(cardAction);
+                  cardImage.append(image);
+                  cardContent.append(cardTitle).append(cardParagraph);
+                  cardParagraph/*.append(cardTime)*/.append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
+                  cardAction.append(cardSource);
+
+
+              }
+
+
+
+
               
-
-              //add img src
-              image.attr("src", result.items[i].imageEntities[i].mediumImage);
-
-              //add card title
-              cardTitle.text(result.items[i].name);
-
-              //add card paragraph, which will be the sale price of the item
-              cardParagraph.text(result.items[i].salePrice);
-
-
-              //add card score, which will be the product rating off of walmart.com
-              cardScore.text(result.items[i].customerRating);
-
-              $("#walmart-search-results").append(cardDiv);
-              cardDiv.append(card);
-              card.append(cardImage).append(cardContent).append(cardAction);
-              cardImage.append(image);
-              cardContent.append(cardTitle).append(cardParagraph);
-              cardParagraph/*.append(cardTime)*/.append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
-              cardAction.append(cardSource);
+            }).fail(function(err) {
+              throw err;
+            });
+            
+            // setHeader function to help with the CORS issue
+            function setHeader(xhr) {
+              xhr.setRequestHeader("Authorization", walmartQueryUrl)
+            }
 
 
-          }
+        }   
 
-
-
-
-          
-        }).fail(function(err) {
-          throw err;
-        });
-        
-        function setHeader(xhr) {
-          xhr.setRequestHeader("Authorization", walmartQueryUrl)
-        }
-
-
-
+      }
 
     });
-    // ***THIS IS WHERE I ENDED MY WORK***
+    // ***THIS IS WHERE LAURA ENDED HER WORK***
 
 
   	//Get a random joke

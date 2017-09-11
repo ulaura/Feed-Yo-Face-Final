@@ -268,8 +268,8 @@ $(document).ready(function() {
                   var imageSRC = response.items[j].imageEntities[j].mediumImage; 
                   console.log("Image src is " + imageSRC); //test
 
-                  var cardDiv = $("<div class=\"col s12 m7 cardDiv\">");
-                  var card = $("<div class=\"card\">").addClass("medium");
+                  var cardDiv = $("<div class=\"col s12 m3 walmartCardDiv\">");
+                  var card = $("<div class=\"card\">").addClass("small");
                   var cardImage = $("<div class=\"card-image\">");
                   var image = $("<img>");
                   var cardContent = $("<div class=\"card-content\">");
@@ -305,7 +305,7 @@ $(document).ready(function() {
                   card.append(cardImage).append(cardContent).append(cardAction);
                   cardImage.append(image);
                   cardContent.append(cardTitle).append(cardParagraph);
-                  cardParagraph/*.append(cardTime)*/.append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
+                  cardParagraph.append("<br>").append(cardScore).append("<br>");
                   cardAction.append(cardSource);
 
 

@@ -307,9 +307,9 @@ $(document).ready(function() {
                   console.log("Image src is " + imageSRC); //test
 
                   var cardDiv = $("<div class=\"col s12 m3 walmartCardDiv\">");
-                  var card = $("<div class=\"card\">").addClass("small");
+                  var card = $("<div class=\"card\">");
                   var cardImage = $("<div class=\"card-image\">");
-                  var image = $("<img>");
+                  var image = $("<img style='width: 50%;'>");
                   var cardContent = $("<div class=\"card-content\">");
                   var cardTitle = $("<span class=\"card-title\">");
                   var cardParagraph = $("<p class=\"cardParagraph\">");

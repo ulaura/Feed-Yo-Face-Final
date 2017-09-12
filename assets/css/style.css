@@ -15,9 +15,21 @@ label {
 	font-size: 18px;
 }
 .card {
+	/* min-height: 570px; */
+	margin-top: 30px;
+}
+
+.walmartDiv, .amazonDiv {
 	min-height: 570px;
 	margin-top: 30px;
 }
+
+.walmartCardDiv {
+	position: relative;
+	height: auto;
+}
+
+
 #ingredientList {
 	min-height: 200px;
 }

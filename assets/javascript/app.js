@@ -43,12 +43,13 @@ $(document).ready(function() {
       //store user
       ingredient = $("#form-ingredient").val().trim();
       quantity = $("#form-quantity").val().trim();
+      unit = $(".unitDropdown .selected").text();
       //unit = $("units option:selected").attr("value");
 
       push = database.ref().push({
       	ingredient,
       	quantity,
-      	unit:unit
+      	unit
       });
 
       //clear the form
@@ -58,12 +59,43 @@ $(document).ready(function() {
 
     //Refresh Pantry Items on Add
     var check = 1;
+    $("#pantry-list").empty();
     database.ref().on("child_added", function(childSnapshot) {
 		loadPantryFromFirebase(childSnapshot);	  
 	}, function(errorObject) {
 	  console.log("errors handled: " + errorObject.code);
 	});
 
+	//Cook With Deez Master Checkbox Select
+	$("#check0").on("click", function() {
+		var nowChecked;
+		if ($("#check0").is(':checked')) {
+			nowChecked = true;
+		} else {
+			nowChecked = false;
+		}
+
+		if (nowChecked) {
+			for (var i = 0; i < $("#pantry-list tr").length; i++) {
+				$("#pantry-list tr").eq(i).children("td").eq(3).children("input").prop('checked', true);
+			}
+		} else {
+			for (var i = 0; i < $("#pantry-list tr").length; i++) {
+				$("#pantry-list tr").eq(i).children("td").eq(3).children("input").prop('checked', false);
+			}
+		}
+	})
+
+	//change favorite star from grey to gold and vice versa
+	$(document).on("click", ".favoriteStar", function() {
+		if ($(this).hasClass("grey-text")) {
+			$(this).removeClass("yellow-text grey-text");
+			$(this).addClass("yellow-text");
+		} else {
+			$(this).removeClass("yellow-text grey-text");
+			$(this).addClass("grey-text");
+		}
+	});
 
     var itemToAdd = "";
     $(".box").on("click", function() {
@@ -198,12 +230,14 @@ $(document).ready(function() {
         var image = $("<img>");
         var cardContent = $("<div class=\"card-content\">");
         var cardTitle = $("<span class=\"card-title\">");
-        var cardParagraph = $("<p class=\"cardParagraph\">");
+        var cardParagraph = $("<p class=\"cardParagraph col s12\">");
         var cardTime = $("<span class=\"cardTime\">");
         var cardScore = $("<span class=\"cardScore\">");
         /*var cardDescription = $("<span class=\"cardDescription\">");*/
         var cardAction = $("<div class=\"card-action\">");
         var cardSource = $("<a class=\"cardsource\">");
+        var star = $("<i class=\"small material-icons small grey-text favoriteStar\">star</i>")
+        var titleDiv = $("<div class=\"titleDiv\">");
 
         //add img src
         image.attr("src", response.results[i].image);
@@ -225,7 +259,9 @@ $(document).ready(function() {
         cardDiv.append(card);
         card.append(cardImage).append(cardContent).append(cardAction);
         cardImage.append(image);
-        cardContent.append(cardTitle).append(cardParagraph);
+        cardContent.append(titleDiv);
+        titleDiv.append($("<div class=\"col s10\">").append(cardTitle)).append($("<div class=\"col s2\">").append(star));
+        cardContent.append(cardParagraph);
         cardParagraph.append(cardTime).append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
         cardAction.append(cardSource);
         

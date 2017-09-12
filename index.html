@@ -31,7 +31,7 @@
                                 <input id="form-quantity" type="text" class="validate">
                                 <label for="password">Quantity</label>
                             </div>
-                            <div class="input-field col s3">
+                            <div class="input-field col s3 unitDropdown">
                                 <select id="units">
                                     <option value="" disabled selected class="form-unit">Choose Unit</option>
                                     <option value="Teaspoon" class="form-unit">Teaspoon</option>
@@ -45,7 +45,7 @@
                                 </select>
                             </div>
                             <div class="input-field col s3">
-                                <a class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">Add to Pantry</a>
+                                <input type="submit"  value="ADD TO PANTRY" class="waves-effect waves-light btn blue-grey darken-1" id="form-addIngredient">
                             </div>
                         </div>
                     </form>
@@ -56,7 +56,7 @@
                                 <th>Ingredient</th>
                                 <th>Quantity</th>
                                 <th>Unit</th>
-                                <th>Cook Wit Deez</th>
+                                <th><input type="checkbox" id="check0"/><label for="check0"></label>Cook Wit Deez</th>
                                 <th>Remove Item</th>
                             </tr>
                         </thead>
@@ -128,13 +128,15 @@
         	</div>
         </div>
     </div>
+    <div class="container">
+        <div class="row" id="recipe-cards">
+        </div>
+    </div>
     <div class="row">
         <div class="card amazonDiv s12" style="min-width:1500px;"><span class="flow-text">Amazon Div</span></div>
     </div>
     <div class="row">
         <div class="card walmartDiv s12" style="min-width:1500px;"><span class="flow-text">Walmart Div</span></div>
-    </div>
-    <div class="row" id="recipe-cards">
     </div>
     <footer class="page-footer">
 		<div class="container">

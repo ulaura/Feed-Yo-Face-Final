@@ -121,6 +121,7 @@ $(document).ready(function() {
 		+ "<input type='checkbox' id='check" + 
 		check + "'/><label for='check" + 
 		check + "'></label></td><td>"
+		+ "<a href='#amazon-modal' class='waves-effect waves-light btn blue-grey darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>"
 		+ "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
 		check++;
     }
@@ -163,6 +164,12 @@ $(document).ready(function() {
 	});
     });
 
+//AMAZON
+var amazonSearchKeyword = "";
+
+$(document).on("click", ".amazonButton", function() {
+	console.log($(this).closest("tr").children("td").eq(0).text());
+})
 
 //  ***Spoonacular API***
 	//initialize variables
@@ -247,7 +254,7 @@ $(document).ready(function() {
         cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);
 
         //add card source
-        cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("OPEN SOURCE PAGE").attr("target", "_blank");
+        cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("VIEW RECIPE").attr("target", "_blank");
 
 
         $("#recipe-cards").append(cardDiv);

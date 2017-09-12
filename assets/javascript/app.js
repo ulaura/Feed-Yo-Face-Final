@@ -43,12 +43,13 @@ $(document).ready(function() {
       //store user
       ingredient = $("#form-ingredient").val().trim();
       quantity = $("#form-quantity").val().trim();
+      unit = $(".unitDropdown .selected").text();
       //unit = $("units option:selected").attr("value");
 
       push = database.ref().push({
       	ingredient,
       	quantity,
-      	unit:unit
+      	unit
       });
 
       //clear the form
@@ -58,12 +59,43 @@ $(document).ready(function() {
 
     //Refresh Pantry Items on Add
     var check = 1;
+    $("#pantry-list").empty();
     database.ref().on("child_added", function(childSnapshot) {
 		loadPantryFromFirebase(childSnapshot);	  
 	}, function(errorObject) {
 	  console.log("errors handled: " + errorObject.code);
 	});
 
+	//Cook With Deez Master Checkbox Select
+	$("#check0").on("click", function() {
+		var nowChecked;
+		if ($("#check0").is(':checked')) {
+			nowChecked = true;
+		} else {
+			nowChecked = false;
+		}
+
+		if (nowChecked) {
+			for (var i = 0; i < $("#pantry-list tr").length; i++) {
+				$("#pantry-list tr").eq(i).children("td").eq(3).children("input").prop('checked', true);
+			}
+		} else {
+			for (var i = 0; i < $("#pantry-list tr").length; i++) {
+				$("#pantry-list tr").eq(i).children("td").eq(3).children("input").prop('checked', false);
+			}
+		}
+	})
+
+	//change favorite star from grey to gold and vice versa
+	$(document).on("click", ".favoriteStar", function() {
+		if ($(this).hasClass("grey-text")) {
+			$(this).removeClass("yellow-text grey-text");
+			$(this).addClass("yellow-text");
+		} else {
+			$(this).removeClass("yellow-text grey-text");
+			$(this).addClass("grey-text");
+		}
+	});
 
     var itemToAdd = "";
     $(".box").on("click", function() {
@@ -134,16 +166,6 @@ $(document).ready(function() {
   	var exclude = "";
   	var calories = "";
   	var type = "";
-  
-  	// Initialize Firebase
-  	var config = {
-  	  apiKey: "AIzaSyCBvZc9Z1YbIZR-9MEvCABS4nbg0Z5eICM",
-  	  authDomain: "spoonaculartest.firebaseapp.com",
-  	  databaseURL: "https://spoonaculartest.firebaseio.com",
-  	  projectId: "spoonaculartest",
-  	  storageBucket: "spoonaculartest.appspot.com",
-  	  messagingSenderId: "362221940130"
-  	};
 
     // Search For Recipes
 	  $("#select").on("click", function(){
@@ -198,12 +220,14 @@ $(document).ready(function() {
         var image = $("<img>");
         var cardContent = $("<div class=\"card-content\">");
         var cardTitle = $("<span class=\"card-title\">");
-        var cardParagraph = $("<p class=\"cardParagraph\">");
+        var cardParagraph = $("<p class=\"cardParagraph col s12\">");
         var cardTime = $("<span class=\"cardTime\">");
         var cardScore = $("<span class=\"cardScore\">");
         /*var cardDescription = $("<span class=\"cardDescription\">");*/
         var cardAction = $("<div class=\"card-action\">");
         var cardSource = $("<a class=\"cardsource\">");
+        var star = $("<i class=\"small material-icons small grey-text favoriteStar\">star</i>")
+        var titleDiv = $("<div class=\"titleDiv\">");
 
         //add img src
         image.attr("src", response.results[i].image);
@@ -225,7 +249,9 @@ $(document).ready(function() {
         cardDiv.append(card);
         card.append(cardImage).append(cardContent).append(cardAction);
         cardImage.append(image);
-        cardContent.append(cardTitle).append(cardParagraph);
+        cardContent.append(titleDiv);
+        titleDiv.append($("<div class=\"col s10\">").append(cardTitle)).append($("<div class=\"col s2\">").append(star));
+        cardContent.append(cardParagraph);
         cardParagraph.append(cardTime).append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
         cardAction.append(cardSource);
         
@@ -233,6 +259,18 @@ $(document).ready(function() {
       });
     });
 
+    //Get a random joke
+    function getJoke(){
+      var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).done(function(response) {
+      var joke = response.text;
+      $("#joke").html(joke);
+      });
+    };
+    
 
     // to get the Walmart API to function **THIS IS WHERE LAURA STARTED WORKING***
 
@@ -332,18 +370,55 @@ $(document).ready(function() {
     });
     // ***THIS IS WHERE LAURA ENDED HER WORK***
 
-
-  	//Get a random joke
-  	function getJoke(){
-  	  var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"
-  	  $.ajax({
-  		  url: queryURL,
-  		  method: "GET"
-  	  }).done(function(response) {
-  		var joke = response.text;
-  		$("#joke").html(joke);
-  	  });
-  	};
+  //Firebase Authentication
+  // CHECK CURRENT PATH
+  var currentPath = $(location)[0].pathname;
+  // CHECK IF USER IS SIGNED IN
+  firebase.auth().onAuthStateChanged(function(user) {
+    if(user && (currentPath === '/signInPage.html' || currentPath === '/' )) {
+      // REDIRECT IF AUTHENTICATED
+      $(location).attr('href', 'index.html');
+    } else if(!user && currentPath === '/index.html') {
+      // REDIRECT IF NOT AUTHENTICATED
+      $(location).attr('href', 'signInPage.html');
+    }
+  });
+  // SIGN IN THE USER
+  $('#logIn').on('click', function() {
+    console.log("clicked log in");
+    $("#error").empty();
+    var email = $('#email').val().trim();
+    var password = $('#password').val().trim();
+    if(email && password) {
+      // ADD USER TO DATABASE
+      firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+          $(location).attr('href', 'index.html');
+        }).catch(function(error) {
+          $("#error").html("ERROR: " + error.message);
+        });
+    }
+  });
+  // SIGN UP THE USER
+  $('#signUp').on('click', function() {
+    console.log("clicked Sign Up");
+    $("#error").empty();
+    var email = $('#email').val();
+    var password = $('#password').val();
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+        $(location).attr('href', 'index.html');
+      }).catch(function(error) {
+        $("#error").html("ERROR: " + error.message);
+      });
+  });
+  // SIGN OUT THE USER
+  $('#logOut').on('click', function() {
+    $("#error").empty();
+    firebase.auth().signOut().then(function() {
+        $(location).attr('href', 'signInPage.html');
+      }).catch(function(error) {
+        $("#error").html("ERROR: " + error.message);
+      });
+  });
   	
 
 

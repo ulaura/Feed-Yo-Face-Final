@@ -344,12 +344,12 @@ $(document).ready(function() {
 	var currentPath = $(location)[0].pathname;
 	// CHECK IF USER IS SIGNED IN
 	firebase.auth().onAuthStateChanged(function(user) {
-		if (user && (currentPath === '/signInPage.html' || currentPath === '/')) {
+		if (user && (currentPath === '/index.html' || currentPath === '/')) {
 			// REDIRECT IF AUTHENTICATED
-			$(location).attr('href', 'index.html');
-		} else if (!user && currentPath === '/index.html') {
+			$(location).attr('href', 'app.html');
+		} else if (!user && currentPath === '/app.html') {
 			// REDIRECT IF NOT AUTHENTICATED
-			$(location).attr('href', 'signInPage.html');
+			$(location).attr('href', 'index.html');
 		}
 	});
 	// SIGN IN THE USER
@@ -361,7 +361,7 @@ $(document).ready(function() {
 		if (email && password) {
 			// ADD USER TO DATABASE
 			firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
-				$(location).attr('href', 'index.html');
+				$(location).attr('href', 'app.html');
 			}).catch(function(error) {
 				$("#error").html("ERROR: " + error.message);
 			});
@@ -374,7 +374,7 @@ $(document).ready(function() {
 		var email = $('#email').val();
 		var password = $('#password').val();
 		firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
-			$(location).attr('href', 'index.html');
+			$(location).attr('href', 'app.html');
 		}).catch(function(error) {
 			$("#error").html("ERROR: " + error.message);
 		});
@@ -383,7 +383,7 @@ $(document).ready(function() {
 	$('#logOut').on('click', function() {
 		$("#error").empty();
 		firebase.auth().signOut().then(function() {
-			$(location).attr('href', 'signInPage.html');
+			$(location).attr('href', 'index.html');
 		}).catch(function(error) {
 			$("#error").html("ERROR: " + error.message);
 		});

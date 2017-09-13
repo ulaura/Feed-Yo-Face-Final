@@ -19,7 +19,7 @@ $(document).ready(function() {
 			console.log(unit);
 			$("#form-unit").text($(this).text());
 			/*$("#dropdownMenu2").val($(this).text());*/
-		});
+	});
 
 	// Initialize Firebase
 	  var config = {
@@ -32,8 +32,10 @@ $(document).ready(function() {
 	  };
 	  firebase.initializeApp(config);
 
-
 	var database = firebase.database();
+
+	//Global Variables
+	var pantryItems = "";
 
 	// Initial Values
 		var ingredient = "";
@@ -115,20 +117,32 @@ $(document).ready(function() {
 	  console.log(childSnapshot.val().unit);
       console.log(childSnapshot.key);
 
+      pantryItems += childSnapshot.val().ingredient + ",";
+
+
 	  $("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>"
 	    + childSnapshot.val().quantity + "</td><td>"  
 		+ childSnapshot.val().unit + "</td><td>"
 		+ "<input type='checkbox' id='check" + 
 		check + "'/><label for='check" + 
 		check + "'></label></td><td>"
-		+ "<a href='#amazon-modal' class='waves-effect waves-light btn blue-grey darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>"
+		+ "<a href=\"https://www.amazon.com/s/ref=nb_sb_noss?url=srs%3D7301146011%26search-alias%3Dpantry&field-keywords=" + childSnapshot.val().ingredient + "\" target='_blank' class='waves-effect waves-light btn blue-grey darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>"
 		+ "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
 		check++;
+    }
+
+    function eqDivs() {
+    	if($(".pantry .card-content").height() > $(".mixingBowl .card-content").height()) {
+			$(".mixingBowl").css("height", $(".pantry .card-content").height());
+		} else {
+			$(".pantry .card-content").css("height", $(".mixingbowl").height());
+		}
     }
 
     //Add items to Mixing Bowl
     $("#addToBowl").on("click", function() {
       console.log($("#pantry-list").children("tr").length);
+      console.log("ingredient list: " + pantryItems);
       for (var i = 0; i < $("#pantry-list").children("tr").length; i++) {
         //if this item is checked add to mixing bowl list
         
@@ -140,13 +154,16 @@ $(document).ready(function() {
            + $("#pantry-list").children("tr").eq(i).children("td").eq(2).text() + "</span></td><td>"
            + "<a class=\"btn-floating btn red box\"><i class=\"material-icons deleteBowlItemButton\">delete_forever</i></a>"
            );
+          eqDivs();
         }
       }
+      
     });
 
     // Delete Items from Mixing Bowl
     $(document).on("click", ".deleteBowlItemButton", function() {
       $(this).closest("tr").remove();
+      eqDivs();
     });
     
     //Delete Pantry Item
@@ -154,11 +171,13 @@ $(document).ready(function() {
     $(document).on("click", ".deletePantryItemButton", function(e) {
       var key = $(this).closest("tr").attr("data-name");
       rootRef.child(key).remove();
+      eqDivs();
 
      // Refresh pantry list - empty the Pantry List and Load it again
      $("#pantry-list").empty();
 	database.ref().on("child_added", function(childSnapshot) {
 		loadPantryFromFirebase(childSnapshot);	  
+		eqDivs();
 	}, function(errorObject) {
 	  console.log("errors handled: " + errorObject.code);
 	});
@@ -182,12 +201,14 @@ $(document).on("click", ".amazonButton", function() {
     // Search For Recipes
 	  $("#select").on("click", function(){
       event.preventDefault();
-      var ingredientList = $("#mixingBowlList").children("tr");
+      var ingredientList = $("#pantry-list").children("tr");
 
       include = "";
       for (var i = 0; i < ingredientList.length; i++) {
         //add ingredients to api parameter
-        include += ingredientList.eq(i).children("td").eq(0).text() + ",";
+        if ($("#pantry-list").children("tr").eq(i).children("td").eq(3).children("input").is(':checked')) {
+        	include += ingredientList.eq(i).children("td").eq(0).text() + ",";
+        }
       }
       //remove comma from last ingredient
       include = include.slice(0, -1);
@@ -227,18 +248,19 @@ $(document).on("click", ".amazonButton", function() {
       //start creating the cards
       for (var i = 0; i < responseLength; i++) {
         var cardDiv = $("<div class=\"col s12 m4 cardDiv\">");
-        var card = $("<div class=\"card\">").addClass("medium");
+        var card = $("<div class=\"card recipeCard\">");
         var cardImage = $("<div class=\"card-image\">");
-        var image = $("<img>");
+        var image = $("<img class=\"recipeImage\">");
         var cardContent = $("<div class=\"card-content\">");
         var cardTitle = $("<span class=\"card-title\">");
         var cardParagraph = $("<p class=\"cardParagraph col s12\">");
         var cardTime = $("<span class=\"cardTime\">");
         var cardScore = $("<span class=\"cardScore\">");
-        /*var cardDescription = $("<span class=\"cardDescription\">");*/
-        var cardAction = $("<div class=\"card-action\">");
+        var cardIngredients = $("<span class=\"cardIngredients\">");
+        var Ingredients = "";
+        var cardAction = $("<div class=\"card-action\" style='clear:both'>");
         var cardSource = $("<a class=\"cardsource\">");
-        var star = $("<i class=\"small material-icons small grey-text favoriteStar\">star</i>")
+        var star = $("<a class='btn-floating'><i class=\"small material-icons small grey-text favoriteStar\">star</i></a>")
         var titleDiv = $("<div class=\"titleDiv\">");
 
         //add img src
@@ -253,6 +275,15 @@ $(document).on("click", ".amazonButton", function() {
         //add card score
         cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);
 
+        //add missing ingredients
+        cardIngredients.text("Ingredients: " + Ingredients);
+        var numberOfIngredients = response.results[0].analyzedInstructions[0].steps[0];
+        console.log(numberOfIngredients);
+        /*for (var i = 0; i < response.results[i].analyzedInstructions[0].ingredients; i++) {
+        	var ingredient = response.results[i].analyzedInstructions[0].ingredients[i].name;
+        	console.log("ingredient: " + ingredient);
+        }*/
+
         //add card source
         cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("VIEW RECIPE").attr("target", "_blank");
 
@@ -264,7 +295,7 @@ $(document).on("click", ".amazonButton", function() {
         cardContent.append(titleDiv);
         titleDiv.append($("<div class=\"col s10\">").append(cardTitle)).append($("<div class=\"col s2\">").append(star));
         cardContent.append(cardParagraph);
-        cardParagraph.append(cardTime).append("<br>").append(cardScore)/*.append(cardDescription)*/.append("<br>");
+        cardParagraph.append(cardTime).append("<br>").append(cardScore).append("<br>").append(cardIngredients).append("<br>");
         cardAction.append(cardSource);
         
         }

@@ -20,19 +20,20 @@
         </div>
     </nav>
     <div class="row">
-        <div class="col s12 l7">
-            <div class="card">
+        
+        <div class="col s12 pantryDiv">
+            <div class="card ">
                 <div class="card-content">
                     <h5>Add Pantry Items</h5>
                     <form>
                         <div class="row">
                             <div class="input-field col s4">
                                 <input id="form-ingredient" type="text" class="validate">
-                                <label for="password">Ingredient</label>
+                                <label for="form-ingredient">Ingredient</label>
                             </div>
                             <div class="input-field col s2">
                                 <input id="form-quantity" type="text" class="validate">
-                                <label for="password">Quantity</label>
+                                <label for="form-quantity">Quantity</label>
                             </div>
                             <div class="input-field col s3 unitDropdown">
                                 <select id="units">
@@ -67,12 +68,49 @@
                         <tbody id="pantry-list">
                         </tbody>
                     </table>
-                    <a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a>
-                    <a href="#walmart-modal" class="waves-effect waves-light btn blue-grey darken-1 modal-trigger" id="findOnWalmart">Find on WalMart</a>
+                   <div class="row">
+                        <div class ="col s4"><!--INLINE STYLING---------------------------------->
+                            <br>
+                            <h5>Max Calories</h5>
+                            <input type="number" name="calories" class="calories" value="2000">
+                        </div>
+                        <div class="browser-default col s4">
+                            <br>
+                            <h5>Course Type</h5>
+                            <select class="dropdown-menu courseDropdown" aria-labelledby="form-unit">
+                                <option value="" disabled selected>Choose Type</option>
+                                <option value="main+course" class="type">Main Course</option>
+                                <option value="side+dish" class="type">Side Dish</option>
+                                <option value="dessert" class="type">Dessert</option>
+                                <option value="appetizer" class="type">Appetizer</option>
+                                <option value="salad" class="type">Salad</option>
+                            </select>
+                        </div>
+                        <div class="browser-default col s4">
+                            <br>
+                            <h5>Diet</h5>
+                            <select class="dropdown-menu dietDropdown" aria-labelledby="form-unit">
+                                <option value="" disabled selected>Choose Diet</option>
+                                <option value="pescetarian" class="diet">Pescetarian</option>
+                                <option value="lacto+vegetarian" class="diet">Lacto Vegetarian</option>
+                                <option value="ovo+vegetarian" class="diet">Ovo Vegetarian</option>
+                                <option value="vegan" class="diet">Vegan</option>
+                                <option value="paleo" class="diet">Paleo</option>
+                            </select>
+                        </div>
+                   </div>
+                        <div class="row">
+                            <div style="text-align:center;">
+                                <!-- <a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a> -->
+                                <a class="waves-effect waves-light btn blue-grey darken-1  searchButton" id="select">Search For Recipes</a>
+                                <a href="#walmart-modal" class="waves-effect waves-light btn blue-grey darken-1 modal-trigger  searchButton" id="findOnWalmart">Find on WalMart</a>
+                            </div>
+                        </div>
+                    
                 </div>
             </div>
         </div>
-        <div class="col s12 l5">
+        <!-- <div class="col s12 l5 mixingBowlDiv">
             <div class="card mixingBowl">
                 <div class="card-content white-text">
                     <span class="card-title">Recipe Search</span>
@@ -91,11 +129,11 @@
                                 <tbody id="mixingBowlList"></tbody>
                             </table>
                         </div>
-                        <!-- <div class ="col s12">
+                        <div class ="col s12">
                             <label>Please Exclude <small>(separate with commas)</small></label>
                             <input type="text" name="exclude" class="exclude">
-                        </div> -->
-                        <div class ="col s12" style="margin-top:20px;"><!--INLINE STYLING---------------------------------->
+                        </div>
+                        <div class ="col s12" style="margin-top:20px;">INLINE STYLING--------------------------------
                             <br>
                             <label>Max Calories</label>
                             <input type="number" name="calories" class="calories" value="2000">
@@ -129,7 +167,7 @@
                 </div>
                 <div style="clear:both"></div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="container">
         <div class="row" id="recipe-cards">
@@ -149,11 +187,11 @@
 
       <!-- Walmart Modal Structure -->
       <div id="walmart-modal" class="modal">
+        <div class="modal-header right-align">
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
         <div class="row">
             <div class="modal-content walmart-content"></div>
-        </div>
-        <div class="modal-footer">
-          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
       </div> 
     <footer class="page-footer">

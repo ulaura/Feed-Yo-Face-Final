@@ -19,6 +19,22 @@ label {
 	margin-top: 30px;
 }
 
+.recipeCard {
+	min-height: 500px;
+}
+
+.recipeImage {
+	height: 250px;
+}
+
+.pantryDiv .card-content {
+	width: 90vw;
+}
+
+.searchButton {
+	margin: 10px;
+}
+
 .walmartDiv, .amazonDiv {
 	display: inline-block;
 	width: 90vw;
@@ -54,10 +70,7 @@ nav {
 	text-align: center;
 	background-color: #5c2932;
 }
-.recipeCard {
-  	height: auto;
-  	width: 400px;
-}
+
 .clickToMin {
 	font-size: 12px;
 }

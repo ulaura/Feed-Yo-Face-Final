@@ -242,7 +242,7 @@ $(document).ready(function() {
 				//add card score
 				cardScore.text("Spoonacular Score: " + response.results[i].spoonacularScore);
 				//add missing ingredients
-				cardIngredients.text("Ingredients: " + Ingredients);
+				/*cardIngredients.text("Ingredients: " + Ingredients);*/
 				var numberOfIngredients = response.results[0].analyzedInstructions[0].steps[0];
 				/*for (var i = 0; i < response.results[i].analyzedInstructions[0].ingredients; i++) {
 					var ingredient = response.results[i].analyzedInstructions[0].ingredients[i].name;

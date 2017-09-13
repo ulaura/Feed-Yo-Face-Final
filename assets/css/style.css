@@ -1,5 +1,5 @@
 body {
-	background-color: #faefdd;
+	background-color: #F3F3F3;
 	display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -25,10 +25,6 @@ label {
 
 .recipeImage {
 	height: 250px;
-}
-
-.pantryDiv .card-content {
-	width: 90vw;
 }
 
 .searchButton {
@@ -61,14 +57,14 @@ small {
 	font-size: 16px;
 }
 nav {
-	background-color: #5c2932;
+	background-color: #32C787;
 }
 .mixingBowl {
 	background-color: #424953;
 }
 .page-footer {
 	text-align: center;
-	background-color: #5c2932;
+	background-color: #32C787;
 }
 
 .clickToMin {
@@ -90,9 +86,9 @@ nav {
 	margin-top: 0;	
 }
 /* label color */
-   .input-field label {
+   /* .input-field label {
      color: #fff;
-   }
+   } */
    /* label focus color */
    .input-field input[type=text]:focus + label {
      color: #fff;

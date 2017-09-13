@@ -60,7 +60,7 @@
                                 </select>
                             </div>
                             <div class="input-field col s3">
-                                <input class="waves-effect waves-light btn blue darken-1" id="form-addIngredient" type="submit" value="ADD TO PANTRY">
+                                <input class="waves-effect waves-light btn blue darken-1 disabled" id="form-addIngredient" type="submit" value="ADD TO PANTRY"></input>
                             </div>
                         </div>
                     </form>
@@ -122,7 +122,7 @@
                     <div class="row">
                         <div style="text-align:center;">
                             <!-- <a class="waves-effect waves-light btn blue-grey darken-1" id="addToBowl">Add to Mixing Bowl</a> -->
-                            <a class="waves-effect waves-light btn blue darken-1 searchButton disabled" id="select">Search For Recipes</a> <a class="waves-effect waves-light btn blue darken-1 modal-trigger searchButton disabled" href="#walmart-modal" id="findOnWalmart">Find on WalMart</a>
+                            <a href="#recipeTitle" class="waves-effect waves-light btn blue darken-1 searchButton disabled" id="select">Search For Recipes</a> <a class="waves-effect waves-light btn blue darken-1 modal-trigger searchButton disabled" href="#walmart-modal" id="findOnWalmart">Find on WalMart</a>
                         </div>
                     </div>
                 </div>
@@ -187,8 +187,10 @@
         </div> -->
     </div>
     <div class="row">
+        <a name="recipeAnchor" title="recipeAnchor"></a>
+        <h5 id="recipeTitle" class="center">Recipes</h5>
         <div>
-            <ul class="pagination center">
+            <ul class="pagination center disabled">
                 <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
                 <li class="active"><a href="#!">1</a></li>
                 <li class="waves-effect"><a href="#!">2</a></li>
@@ -210,14 +212,13 @@
                 <div class="modal-footer">
                     <a class="modal-action modal-close waves-effect waves-green btn-flat" href="#!">Agree</a>
                 </div> -->
-            </div><!-- Walmart Modal Structure -->
-            <div class="modal" id="walmart-modal">
-                <div class="modal-header right-align">
-                    <a class="modal-action modal-close waves-effect waves-green btn-flat" href="#!">Close</a>
-                </div>
-                <div class="row">
-                    <div class="modal-content walmart-content"></div>
-                </div>
+        </div><!-- Walmart Modal Structure -->
+        <div class="modal" id="walmart-modal">
+            <div class="modal-header right-align">
+                <a class="modal-action modal-close waves-effect waves-green btn-flat" href="#!">Close</a>
+            </div>
+            <div class="row">
+                <div class="modal-content walmart-content"></div>
             </div>
         </div>
     </div>

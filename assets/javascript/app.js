@@ -33,17 +33,15 @@ $(document).ready(function() {
 	$(".dropdown-menu option").click(function() {
 		unit = $(this).text();
 		$("#form-unit").text($(this).text());
-		/*$("#dropdownMenu2").val($(this).text());*/
 	});
 	// Add Ingredient to Firebase
-	$("#form-addIngredient").on("click", function() {
+	$("#form-addIngredient").parent("i").on("click", function() {
 		// Don't refresh the page!
 		event.preventDefault();
 		//store user
 		ingredient = $("#form-ingredient").val().trim();
 		quantity = $("#form-quantity").val().trim();
 		unit = $(".unitDropdown .selected").text();
-		//unit = $("units option:selected").attr("value");
 		push = database.ref().push({
 			ingredient,
 			quantity,
@@ -52,7 +50,14 @@ $(document).ready(function() {
 		//clear the form
 		$("#form-ingredient").val("");
 		$("#form-quantity").val("");
+		$("#form-addIngredient").parent("i").addClass("disabled");
 	});
+	//Load pantry list from firebase
+	function loadPantryFromFirebase(childSnapshot) {
+		pantryItems += childSnapshot.val().ingredient + ",";
+		$("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>" + childSnapshot.val().quantity + "</td><td>" + childSnapshot.val().unit + "</td><td>" + "<input type='checkbox' id='check" + check + "' class='pantryCheckBox'/><label for='check" + check + "'></label></td><td>" + "<a href=\"https://www.amazon.com/s/ref=nb_sb_noss?url=srs%3D7301146011%26search-alias%3Dpantry&field-keywords=" + childSnapshot.val().ingredient + "\" target='_blank' class='waves-effect waves-light btn blue darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>" + "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
+		check++;
+	}
 	//Refresh Pantry Items on Add
 	var check = 1;
 	$("#pantry-list").empty();
@@ -60,6 +65,13 @@ $(document).ready(function() {
 		loadPantryFromFirebase(childSnapshot);
 	}, function(errorObject) {
 		console.log("errors handled: " + errorObject.code);
+	});
+	//Delete Pantry Item
+	var rootRef = database.ref();
+	$(document).on("click", ".deletePantryItemButton", function(e) {
+		var key = $(this).closest("tr").attr("data-name");
+		rootRef.child(key).remove();
+		$(this).closest("tr").remove();
 	});
 	//Cook With Deez Master Checkbox Select
 	$("#check0").on("click", function() {
@@ -82,7 +94,6 @@ $(document).ready(function() {
 	//if checked enable search for recipes
 	$(document).on("click",".pantryCheckBox", disableSearch);
 	$(document).on("click","#check0", disableSearch);
-
 	function disableSearch() {
 		var howManyUnChecked = 0;
 		if ($(this).is(":checked", true)) {
@@ -103,6 +114,14 @@ $(document).ready(function() {
 			
 		}
 	};
+	//disable pantry add
+	$("#form-ingredient").keyup(function() {
+		if ($("#form-ingredient").val().trim().length > 0) {
+			$("#form-addIngredient").parent("i").removeClass("disabled");
+		} else {
+			$("#form-addIngredient").parent("i").addClass("disabled");
+		}
+	});
 	//change favorite star from grey to gold and vice versa
 	$(document).on("click", ".favoriteStar", function() {
 		if ($(this).hasClass("white-text")) {
@@ -113,65 +132,14 @@ $(document).ready(function() {
 			$(this).addClass("white-text");
 		}
 	});
-	var itemToAdd = "";
+	/*var itemToAdd = "";
 	$(".box").on("click", function() {
 			itemToAdd += ",";
-		})
-		//Load pantry list from firebase
-	function loadPantryFromFirebase(childSnapshot) {
-		// Log everything that's coming out of snapshot
-		/*console.log(childSnapshot.val().ingredient);
-		console.log(childSnapshot.val().quantity);
-		console.log(childSnapshot.val().unit);
-		console.log(childSnapshot.key);*/
-		pantryItems += childSnapshot.val().ingredient + ",";
-		$("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>" + childSnapshot.val().quantity + "</td><td>" + childSnapshot.val().unit + "</td><td>" + "<input type='checkbox' id='check" + check + "' class='pantryCheckBox'/><label for='check" + check + "'></label></td><td>" + "<a href=\"https://www.amazon.com/s/ref=nb_sb_noss?url=srs%3D7301146011%26search-alias%3Dpantry&field-keywords=" + childSnapshot.val().ingredient + "\" target='_blank' class='waves-effect waves-light btn blue darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>" + "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
-		check++;
-	}
-
-	function eqDivs() {
-		if ($(".pantry .card-content").height() > $(".mixingBowl .card-content").height()) {
-			$(".mixingBowl").css("height", $(".pantry .card-content").height());
-		} else {
-			$(".pantry .card-content").css("height", $(".mixingbowl").height());
-		}
-	}
+		})*/
 	//Pagination
 	$(".pagination li").not(".disable").on("click", function() {
 		$(".pagination li.active").removeClass("active").addClass("waves-effect");
 		$(this).addClass("active").removeClass("waves-effect");
-	});
-	//Add items to Mixing Bowl
-	/*$("#addToBowl").on("click", function() {
-		console.log($("#pantry-list").children("tr").length);
-		console.log("ingredient list: " + pantryItems);
-		for (var i = 0; i < $("#pantry-list").children("tr").length; i++) {
-			//if this item is checked add to mixing bowl list
-			if ($("#pantry-list").children("tr").eq(i).children("td").eq(3).children("input").is(':checked')) {
-				$("#mixingBowlList").append("<tr><td><span ingredient-name=\"" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "\">" + $("#pantry-list").children("tr").eq(i).children("td").eq(0).text() + "</span></td><td><span>" + $("#pantry-list").children("tr").eq(i).children("td").eq(1).text() + "</span></td><td><span>" + $("#pantry-list").children("tr").eq(i).children("td").eq(2).text() + "</span></td><td>" + "<a class=\"btn-floating btn red box\"><i class=\"material-icons deleteBowlItemButton\">delete_forever</i></a>");
-				eqDivs();
-			}
-		}
-	});*/
-	// Delete Items from Mixing Bowl
-	/*$(document).on("click", ".deleteBowlItemButton", function() {
-		$(this).closest("tr").remove();
-		eqDivs();
-	});*/
-	//Delete Pantry Item
-	var rootRef = database.ref();
-	$(document).on("click", ".deletePantryItemButton", function(e) {
-		var key = $(this).closest("tr").attr("data-name");
-		rootRef.child(key).remove();
-		eqDivs();
-		// Refresh pantry list - empty the Pantry List and Load it again
-		$("#pantry-list").empty();
-		database.ref().on("child_added", function(childSnapshot) {
-			loadPantryFromFirebase(childSnapshot);
-			eqDivs();
-		}, function(errorObject) {
-			console.log("errors handled: " + errorObject.code);
-		});
 	});
 	//AMAZON
 	var amazonSearchKeyword = "";
@@ -198,7 +166,6 @@ $(document).ready(function() {
 		}
 		//remove comma from last ingredient
 		include = include.slice(0, -1);
-		// console.log(include);
 		//search through diets and find selected
 		diet = "&diet=";
 		diet = "&diet=" + $(".dietDropdown ul li.selected").text().replace(/\s/g, "");
@@ -244,10 +211,6 @@ $(document).ready(function() {
 				//add missing ingredients
 				/*cardIngredients.text("Ingredients: " + Ingredients);*/
 				var numberOfIngredients = response.results[0].analyzedInstructions[0].steps[0];
-				/*for (var i = 0; i < response.results[i].analyzedInstructions[0].ingredients; i++) {
-					var ingredient = response.results[i].analyzedInstructions[0].ingredients[i].name;
-					console.log("ingredient: " + ingredient);
-				}*/
 				//add card source
 				cardSource.attr("href", response.results[i].spoonacularSourceUrl).text("VIEW RECIPE").attr("target", "_blank").attr("style","text-center;");
 				$("#recipe-cards").append(cardDiv);
@@ -260,8 +223,13 @@ $(document).ready(function() {
 				cardParagraph.append(cardTime).append("<br>").append(cardScore).append("<br>").append(cardIngredients).append("<br>");
 				cardAction.append(cardSource);
 			}
+			scrollToElement($("#recipeTitle"));
 		});
 	});
+	//scroll to element
+	function scrollToElement(ele) {
+    	$(window).scrollTop(ele.offset().top).scrollLeft(ele.offset().left);
+	}
 	//Get a random joke
 	function getJoke() {
 		var queryURL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/jokes/random?mashape-key=EtOafYwxEJmsh9OKoxDdDksedhQLp1gkmXbjsnR7Wi1CzQDwpd"

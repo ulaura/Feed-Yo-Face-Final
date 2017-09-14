@@ -2,7 +2,7 @@
 
 Project 1 for UA Coding Bootcamp
 
-Team Members: Nicki Legge, Andrew Presnell, Jarred Maestas, and Laura Unaeze
+Team Members: Nicki Legge, Andrew Presnell, Jarred Maestas, and Laura Unaeze (me)
 
 Original Repository: https://github.com/jmaestas7/Feed-Yo-Face
 

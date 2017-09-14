@@ -19,6 +19,22 @@ label {
 	margin-top: 30px;
 }
 
+.fluidMedia {
+    position: relative;
+    padding-bottom: 56.25%; /* proportion value to aspect ratio 16:9 (9 / 16 = 0.5625 or 56.25%) */
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.fluidMedia iframe {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 90%;
+    height: 90%;
+}
+
 .recipeCard {
 	min-height: 500px;
 }

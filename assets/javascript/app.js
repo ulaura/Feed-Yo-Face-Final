@@ -55,8 +55,16 @@ $(document).ready(function() {
 	//Load pantry list from firebase
 	function loadPantryFromFirebase(childSnapshot) {
 		pantryItems += childSnapshot.val().ingredient + ",";
-		$("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>" + childSnapshot.val().quantity + "</td><td>" + childSnapshot.val().unit + "</td><td>" + "<input type='checkbox' id='check" + check + "' class='pantryCheckBox'/><label for='check" + check + "'></label></td><td>" + "<a href=\"https://www.amazon.com/s/ref=nb_sb_noss?url=srs%3D7301146011%26search-alias%3Dpantry&field-keywords=" + childSnapshot.val().ingredient + "\" target='_blank' class='waves-effect waves-light btn blue darken-1 modal-trigger amazonButton' id='findOnAmazon'>Amazon</a></td><td>" + "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
+		$("#pantry-list").append("<tr data-name=\"" + childSnapshot.key + "\"><td>" + childSnapshot.val().ingredient + "</td><td>" + childSnapshot.val().quantity + "</td><td>" + childSnapshot.val().unit + "</td><td>" + "<input type='checkbox' id='check" + check + "' class='pantryCheckBox'/><label for='check" + check + "'></label></td><td>" + "<a target='_blank' class='waves-effect waves-light btn blue darken-1 modal-trigger amazonButton' href='#amazon-modal' href=\'php/indexer.php?Keywords=" + childSnapshot.val().ingredient + "'\ id='findOnAmazon'>Amazon</a></td><td>" + "<a class='btn-floating btn red box'><i class='small material-icons deletePantryItemButton'>delete_forever</i></a></td></tr>");
 		check++;
+		var inputq = childSnapshot.val().ingredient
+
+		//AMAZON
+	$(document).on("click", "#findOnAmazon", function(inputq) {
+		var inputq = childSnapshot.val().ingredient;
+	  		var php = 'php/indexer.php?Keywords=' + inputq;
+	  		$("#amazon-output").attr("src", php);
+	});
 	}
 	//Refresh Pantry Items on Add
 	var check = 1;
@@ -141,11 +149,10 @@ $(document).ready(function() {
 		$(".pagination li.active").removeClass("active").addClass("waves-effect");
 		$(this).addClass("active").removeClass("waves-effect");
 	});
-	//AMAZON
-	var amazonSearchKeyword = "";
-	$(document).on("click", ".amazonButton", function() {
-			/*console.log($(this).closest("tr").children("td").eq(0).text());*/
-		})
+	
+	/*$("#findOnAmazon").on("click", function() {
+		
+		});*/
 		//  ***Spoonacular API***
 		//initialize variables
 	var diet = "";
